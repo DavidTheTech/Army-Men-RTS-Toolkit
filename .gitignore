@@ -1,0 +1,15 @@
+#VS files
+Studio/.vs/
+
+#Build Outputs
+Studio/Release/
+Studio/Studio/Release/
+
+#Libraries
+Libs/libMinHook.x86.lib
+Libs/lua51.lib
+
+#Includes
+Includes/LuaJIT/
+Includes/MinHook/
+Includes/json.hpp
