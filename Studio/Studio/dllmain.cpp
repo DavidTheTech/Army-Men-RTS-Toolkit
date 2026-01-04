@@ -6,6 +6,7 @@
 #include "GameFuncs\game\GameGod.h"
 #include "GameFuncs\main\Runcodes.h"
 #include "GameFuncs\coregame_interface\Studio.h"
+#include "GameFuncs\system\Log.h"
 
 HANDLE SetupEverythingHandle = (HANDLE)NULL;
 HANDLE MinHookHandle = (HANDLE)NULL;
@@ -37,6 +38,7 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
         {
             //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
             //LOG_DIAG("[STUDIO DLL]: MinHook (thread creation)", 1);
+            Log::Client::Write("[STUDIO DLL]: MinHook");
             MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::MinHookStuff, NULL, 0, NULL);
 
             SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
