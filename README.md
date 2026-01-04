@@ -4,7 +4,7 @@ This project depends on the following libraries:
 
 1. **MinHook**  
 	Repository: [https://github.com/TsudaKageyu/minhook](https://github.com/TsudaKageyu/minhook)  
-	- Copy `MinHook.h` into `Includes/MinHook/MinHook.h`.  
+	- Copy `MinHook.h` into `Includes\MinHook\MinHook.h`.  
 	- Compile MinHook and place the library `libMinHook.x86.lib` into `Libs\libMinHook.x86.lib`.
 
 2. **LuaJIT**  
