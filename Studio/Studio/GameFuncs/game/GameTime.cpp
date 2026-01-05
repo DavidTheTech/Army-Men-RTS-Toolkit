@@ -10,7 +10,7 @@ typedef bool(__cdecl* GameTime_IsStalled_t)();
 typedef bool(__cdecl* GameTime_Test_t)();
 typedef void(__cdecl* GameTime_Compute_t)();
 typedef bool(__cdecl* GameTime_Cycle_t)(bool force);
-typedef void(__cdecl* GameTime_Pause_t)(void* thisptr, bool triggerMessage);
+typedef void(__cdecl* GameTime_Pause_t)(bool triggerMessage);
 typedef bool(__cdecl* GameTime_Paused_t)();
 typedef void(__cdecl* GameTime_StepOnce_t)();
 typedef void(__cdecl* GameTime_Readjust_t)();
