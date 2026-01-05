@@ -25,8 +25,12 @@ void SetupEverything()
 
     WaitForTrue(GameGod::IsInitialized());
 
-    DWORD runCodes = 0x007288E0;
+    //Studio
+    DWORD runCodes = 0x7288E0;
     RunCodes::Register((DWORD*)runCodes, "Studio", (int)Studio::Process, (int)Studio::Init, (int)Studio::Done, (int)Studio::PostInit, 0);
+
+    VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
+    
 
 }
 
@@ -38,9 +42,10 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
         {
             //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
             //LOG_DIAG("[STUDIO DLL]: MinHook (thread creation)", 1);
-            Log::Client::Write("[STUDIO DLL]: MinHook");
-            MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::MinHookStuff, NULL, 0, NULL);
+            Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
+            MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::Setup, NULL, 0, NULL);
 
+            Log::Client::Write("[STUDIO DLL]: SetupEverything");
             SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
         }
         case DLL_THREAD_ATTACH:

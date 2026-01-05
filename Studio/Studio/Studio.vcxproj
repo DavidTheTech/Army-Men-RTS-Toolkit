@@ -151,6 +151,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="GameFuncs\util\VarSys.cpp" />
+    <ClCompile Include="GameFuncs\graphics\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\coregame_interface\Studio.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Patches\ConsoleEditPatch.h" />
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="GameFuncs\util\VarSys.h" />
+    <ClInclude Include="GameFuncs\graphics\Terrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
