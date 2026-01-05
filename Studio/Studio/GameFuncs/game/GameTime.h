@@ -5,6 +5,16 @@
 class GameTime
 {
 public:
+    static void Save(DWORD* scope);
+    static void Load(DWORD* scope);
+    static void DisplaySample(unsigned long sample);
+    static float GameCycleOffset();
+    static bool IsFallingBehind();
+    static bool IsDroppingFrames();
+    static bool IsStalled();
+    static bool Test();
+    static void Compute();
+    static bool Cycle(bool force);
     static void Pause(bool triggerMessage);
     static bool Paused();
     static void StepOnce();
