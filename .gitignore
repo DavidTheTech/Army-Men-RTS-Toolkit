@@ -13,3 +13,5 @@ Libs/lua51.lib
 Includes/LuaJIT/
 Includes/MinHook/
 Includes/json.hpp
+
+ClassGen.py
