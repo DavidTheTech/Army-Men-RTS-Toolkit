@@ -10,5 +10,11 @@ public:
     static void StepOnce();
     static void Readjust();
     static void Synchronize();
-    static void SetFastMode();
+    static void SetFastMode(bool flag);
+    static bool GetFastMode();
+    static bool GetFastForwardMode();
+    static void SetDisplayMode(bool flag);
+    static bool GetDisplayMode();
+    static float TimeSinceCycle(unsigned long cycle);
+    static void IncGameCycle();
 };
