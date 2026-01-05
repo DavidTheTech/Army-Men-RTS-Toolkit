@@ -17,3 +17,6 @@ This project depends on the following libraries:
 	- Copy `json.hpp` into `Includes\json.hpp`.
 
 Make sure all library files and headers are placed in the correct folders before compiling the project.
+
+## Discord
+[![Discord Developers](https://invite.casperiv.dev?inviteCode=Y3jy4NJJZf))](https://discord.gg/Y3jy4NJJZf))
