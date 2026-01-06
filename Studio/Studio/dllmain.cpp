@@ -38,12 +38,6 @@ void SetupEverything()
 
     VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
 
-    Sleep(16000);
-
-    const char *msg = "Hello world";
-    U32 len = Utils::Strlen(msg);
-    MultiPlayer::Data::Send(0x0FEC65C5, len - 1, (const unsigned char*)msg, true);
-
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
