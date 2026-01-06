@@ -98,7 +98,7 @@ bool GameTime::Cycle(bool force)
 
 void GameTime::Pause(bool triggerMessage)
 {
-    GameTime_Pause_Fn(nullptr, triggerMessage);
+    GameTime_Pause_Fn(triggerMessage);
 }
 
 bool GameTime::Paused()
