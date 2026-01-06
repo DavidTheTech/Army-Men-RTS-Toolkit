@@ -14,4 +14,6 @@ Includes/LuaJIT/
 Includes/MinHook/
 Includes/json.hpp
 
+#not for release yet
+Docs/
 ClassGen.py

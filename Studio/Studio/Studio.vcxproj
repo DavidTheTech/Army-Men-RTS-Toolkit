@@ -143,7 +143,9 @@
   <ItemGroup>
     <ClCompile Include="GameFuncs\coregame_interface\Studio.cpp" />
     <ClCompile Include="GameFuncs\game\GameGod.cpp" />
+    <ClCompile Include="GameFuncs\graphics\Vid_enumdx.cpp" />
     <ClCompile Include="GameFuncs\main\RunCodes.cpp" />
+    <ClCompile Include="GameFuncs\multiplayer\MultiPlayer_Data.cpp" />
     <ClCompile Include="GameFuncs\system\Log.cpp" />
     <ClCompile Include="GameFuncs\game\GameTime.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
@@ -153,11 +155,15 @@
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="GameFuncs\util\VarSys.cpp" />
     <ClCompile Include="GameFuncs\graphics\Terrain.cpp" />
+    <ClCompile Include="GameFuncs\graphics\Vid.cpp" />
+    <ClCompile Include="GameFuncs\system\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\coregame_interface\Studio.h" />
     <ClInclude Include="GameFuncs\game\GameGod.h" />
     <ClInclude Include="GameFuncs\main\RunCodes.h" />
+    <ClInclude Include="GameFuncs\multiplayer\MultiPlayer.h" />
+    <ClInclude Include="GameFuncs\system\defines.h" />
     <ClInclude Include="GameFuncs\system\Log.h" />
     <ClInclude Include="GameFuncs\game\GameTime.h" />
     <ClInclude Include="Memory\Memory.h" />
@@ -166,6 +172,8 @@
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="GameFuncs\util\VarSys.h" />
     <ClInclude Include="GameFuncs\graphics\Terrain.h" />
+    <ClInclude Include="GameFuncs\graphics\Vid.h" />
+    <ClInclude Include="GameFuncs\system\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,10 +3,17 @@
 #include "Hooks\Hooks.h"
 #include "Patches\Patches.h"
 
+#include "GameFuncs\system\defines.h"
+
 #include "GameFuncs\game\GameGod.h"
 #include "GameFuncs\main\Runcodes.h"
 #include "GameFuncs\coregame_interface\Studio.h"
 #include "GameFuncs\system\Log.h"
+#include "GameFuncs\system\Utils.h"
+#include "GameFuncs\graphics\Vid.h"
+#include "GameFuncs\graphics\Terrain.h"
+#include "GameFuncs\multiplayer\MultiPlayer.h"
+
 
 HANDLE SetupEverythingHandle = (HANDLE)NULL;
 HANDLE MinHookHandle = (HANDLE)NULL;
@@ -30,7 +37,12 @@ void SetupEverything()
     RunCodes::Register((DWORD*)runCodes, "Studio", (int)Studio::Process, (int)Studio::Init, (int)Studio::Done, (int)Studio::PostInit, 0);
 
     VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
-    
+
+    Sleep(16000);
+
+    const char *msg = "Hello world";
+    U32 len = Utils::Strlen(msg);
+    MultiPlayer::Data::Send(0x0FEC65C5, len - 1, (const unsigned char*)msg, true);
 
 }
 
