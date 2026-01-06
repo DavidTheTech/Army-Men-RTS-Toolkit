@@ -5,6 +5,7 @@
 class Vid
 {
 public:
+    static bool SetMode(unsigned long mode, unsigned long width, unsigned long height, bool force);
     static bool InitSurfaces();
     static bool SetCoopLevel();
     static void OnActivate();
@@ -16,7 +17,10 @@ public:
     static unsigned long FreeVidMem(unsigned long report);
     static DWORD FlagsToBitDepth(DWORD flags);
     static bool SetGamma(signed long val);
-    static void LogPref(const char* format, ...);
+    static void LogPerf(const char* format, ...);
     static void ReportMode(unsigned long report);
     static unsigned long Report();
+
+    //vid_enumdx
+    static bool InitDD(bool noPick);
 };
