@@ -20,5 +20,9 @@ private:
 private:
     void RegisterFunctions();
 
+    //Log
     static int Lua_LogClientWrite(lua_State* L);
+
+    //VarSys
+    static int Lua_VarSysCreateCmd(lua_State* L);
 };

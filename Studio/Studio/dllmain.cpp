@@ -31,7 +31,8 @@ inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
 
 void SetupLuaEngine()
 {
-    // usage
+    WaitForTrue(GameGod::IsInitialized());
+
     LuaEngine lua;
     lua.Initialize();
 
@@ -49,7 +50,7 @@ void SetupEverything()
     DWORD runCodes = 0x7288E0;
     RunCodes::Register((DWORD*)runCodes, "Studio", (int)Studio::Process, (int)Studio::Init, (int)Studio::Done, (int)Studio::PostInit, 0);
 
-    VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
+    //VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
 
 }
 
