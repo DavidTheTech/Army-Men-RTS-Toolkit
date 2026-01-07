@@ -14,6 +14,9 @@ Includes/LuaJIT/
 Includes/MinHook/
 Includes/json.hpp
 
+#ImGui
+Studio/Studio/Server/ImGui
+
 #not for release yet
 Docs/
 ClassGen.py

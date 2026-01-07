@@ -20,10 +20,12 @@
 #include "GameFuncs\styxnet\Styxnet_Client.h"
 #include "GameFuncs\util\Console.h"
 #include "GameFuncs\multiplayer\MultiPlayer_Host.h"
+#include "Server/Server.h"
 
-HANDLE SetupEverythingHandle = (HANDLE)NULL;
-HANDLE MinHookHandle = (HANDLE)NULL;
-HANDLE LuaEngineHandle = (HANDLE)NULL;
+HANDLE SetupEverythingHandle = NULL;
+HANDLE MinHookHandle = NULL;
+HANDLE LuaEngineHandle = NULL;
+HANDLE MultiplayerServerHandle = NULL;
 
 inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
 {
@@ -42,6 +44,22 @@ void SetupLuaEngine()
 
     lua.SetVariable("testvar", 42);
     lua.LoadScript("main.lua");
+}
+
+DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
+{
+    CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+
+    int result = MessageBoxA(NULL, "Do you want to start the server?", "Server Initialization", MB_YESNO | MB_ICONQUESTION);
+    if (result == IDYES)
+    {
+        Server* server = new Server();
+        server->init();
+        delete server;
+    }
+
+    CoUninitialize();
+    return 0;
 }
 
 void SetupEverything()
@@ -104,6 +122,9 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
             Log::Client::Write("[STUDIO DLL]: Lua Engine");
             LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);
 
+            Log::Client::Write("[STUDIO DLL]: Multiplayer Controls");
+            MultiplayerServerHandle = CreateThread(NULL, 0, MultiplayerStartup, NULL, 0, NULL);
+            SetThreadPriority(MultiplayerServerHandle, THREAD_PRIORITY_BELOW_NORMAL);
         }
         case DLL_THREAD_ATTACH:
         case DLL_THREAD_DETACH:

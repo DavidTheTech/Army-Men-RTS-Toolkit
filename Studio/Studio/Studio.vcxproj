@@ -161,6 +161,13 @@
     <ClCompile Include="GameFuncs\graphics\Terrain.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid.cpp" />
     <ClCompile Include="GameFuncs\system\Utils.cpp" />
+    <ClCompile Include="Server\ImGui\imgui.cpp" />
+    <ClCompile Include="Server\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Server\ImGui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="Server\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Server\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="Server\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="GameFuncs\styxnet\Styxnet_Client.cpp" />
   </ItemGroup>
@@ -184,6 +191,15 @@
     <ClInclude Include="GameFuncs\graphics\Terrain.h" />
     <ClInclude Include="GameFuncs\graphics\Vid.h" />
     <ClInclude Include="GameFuncs\system\Utils.h" />
+    <ClInclude Include="Server\ImGui\imconfig.h" />
+    <ClInclude Include="Server\ImGui\imgui.h" />
+    <ClInclude Include="Server\ImGui\imgui_impl_dx9.h" />
+    <ClInclude Include="Server\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Server\ImGui\imgui_internal.h" />
+    <ClInclude Include="Server\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Server\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Server\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Server\Server.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="GameFuncs\styxnet\Styxnet_Client.h" />
   </ItemGroup>
