@@ -63,6 +63,9 @@
     <ClCompile Include="GameFuncs\system\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine\LuaEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\system\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\LuaEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

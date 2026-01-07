@@ -148,6 +148,7 @@
     <ClCompile Include="GameFuncs\multiplayer\MultiPlayer_Data.cpp" />
     <ClCompile Include="GameFuncs\system\Log.cpp" />
     <ClCompile Include="GameFuncs\game\GameTime.cpp" />
+    <ClCompile Include="LuaEngine\LuaEngine.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Patches\Patches.cpp" />
     <ClCompile Include="Patches\ConsoleEditPatch.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="GameFuncs\system\defines.h" />
     <ClInclude Include="GameFuncs\system\Log.h" />
     <ClInclude Include="GameFuncs\game\GameTime.h" />
+    <ClInclude Include="LuaEngine\LuaEngine.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Patches\Patches.h" />
     <ClInclude Include="Patches\ConsoleEditPatch.h" />

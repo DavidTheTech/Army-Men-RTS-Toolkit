@@ -14,9 +14,12 @@
 #include "GameFuncs\graphics\Terrain.h"
 #include "GameFuncs\multiplayer\MultiPlayer.h"
 
+#include "LuaEngine\LuaEngine.h"
+
 
 HANDLE SetupEverythingHandle = (HANDLE)NULL;
 HANDLE MinHookHandle = (HANDLE)NULL;
+HANDLE LuaEngineHandle = (HANDLE)NULL;
 
 inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
 {
@@ -24,6 +27,16 @@ inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
     {
         Sleep(sleepMs);
     }
+}
+
+void SetupLuaEngine()
+{
+    // usage
+    LuaEngine lua;
+    lua.Initialize();
+
+    lua.SetVariable("testvar", 42);
+    lua.LoadScript("main.lua");
 }
 
 void SetupEverything()
@@ -53,6 +66,10 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
 
             Log::Client::Write("[STUDIO DLL]: SetupEverything");
             SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
+
+            Log::Client::Write("[STUDIO DLL]: Lua Engine");
+            LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);
+
         }
         case DLL_THREAD_ATTACH:
         case DLL_THREAD_DETACH:
