@@ -1,26 +1,26 @@
 #include "GameTime.h"
 
-typedef void(__cdecl* GameTime_Save_t)(DWORD* scope);
-typedef void(__cdecl* GameTime_Load_t)(DWORD* scope);
-typedef void(__cdecl* GameTime_DisplaySample_t)(unsigned long sample);
+typedef void(__thiscall* GameTime_Save_t)(DWORD* scope);
+typedef void(__thiscall* GameTime_Load_t)(DWORD* scope);
+typedef void(__thiscall* GameTime_DisplaySample_t)(unsigned long sample);
 typedef float(__cdecl* GameTime_GameCycleOffset_t)();
 typedef bool(__cdecl* GameTime_IsFallingBehind_t)();
 typedef bool(__cdecl* GameTime_IsDroppingFrames_t)();
 typedef bool(__cdecl* GameTime_IsStalled_t)();
 typedef bool(__cdecl* GameTime_Test_t)();
 typedef void(__cdecl* GameTime_Compute_t)();
-typedef bool(__cdecl* GameTime_Cycle_t)(bool force);
-typedef void(__cdecl* GameTime_Pause_t)(bool triggerMessage);
+typedef bool(__thiscall* GameTime_Cycle_t)(bool force);
+typedef void(__thiscall* GameTime_Pause_t)(bool triggerMessage);
 typedef bool(__cdecl* GameTime_Paused_t)();
 typedef void(__cdecl* GameTime_StepOnce_t)();
 typedef void(__cdecl* GameTime_Readjust_t)();
 typedef void(__cdecl* GameTime_Synchronize_t)();
-typedef void(__cdecl* GameTime_SetFastMode_t)(bool flag);
+typedef void(__thiscall* GameTime_SetFastMode_t)(bool flag);
 typedef bool(__cdecl* GameTime_GetFastMode_t)();
 typedef bool(__cdecl* GameTime_GetFastForwardMode_t)();
-typedef void(__cdecl* GameTime_SetDisplayMode_t)(bool flag);
+typedef void(__thiscall* GameTime_SetDisplayMode_t)(bool flag);
 typedef bool(__cdecl* GameTime_GetDisplayMode_t)();
-typedef float(__cdecl* GameTime_TimeSinceCycle_t)(unsigned long cycle);
+typedef float(__thiscall* GameTime_TimeSinceCycle_t)(unsigned long cycle);
 typedef void(__cdecl* GameTime_IncGameCycle_t)();
 
 static GameTime_Save_t GameTime_Save_Fn = (GameTime_Save_t)(Memory::ScanAddress(0x40F9C0));

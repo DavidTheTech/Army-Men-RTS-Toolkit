@@ -1,19 +1,16 @@
 #include "VarSys.h"
 
-typedef int(__fastcall* sub_004E4430)(char* IntName, int IntValue, int Unk2, DWORD* IntToAttach, int Unk3);
-static sub_004E4430 VarSysCreateInteger = (sub_004E4430)(Memory::ScanAddress(0x4E4430));
+typedef int(__fastcall* VarSysCreateInteger_t)(char* IntName, int IntValue, int Unk2, DWORD* IntToAttach, int Unk3);
+typedef void(__fastcall* VarSysCreateCmd_t)(char* IntName, int Unk1, int Unk2);
+typedef int(__fastcall* VarSysCreateString_t)(char* a1, const char* a2, int a3, DWORD* a4, int a5);
+typedef int(__fastcall* VarSysCreateFloat_t)(const char* path, float value, unsigned long flagsIn, DWORD* varPtr, void* context);
+typedef int(__fastcall* VarSysRegisterHandler_t)(int IntName, int IntFunc, int Unk1);
 
-typedef void(__fastcall* sub_4E4520)(char* IntName, int Unk1, int Unk2);
-static sub_4E4520 VarSysCreateCmd = (sub_4E4520)(Memory::ScanAddress(0x4E4520));
-
-typedef int(__fastcall* sub_004E43E0)(char* a1, const char* a2, int a3, DWORD* a4, int a5);
-static sub_004E43E0 VarSysCreateString = (sub_004E43E0)(Memory::ScanAddress(0x4E43E0));
-
-typedef int(__fastcall* sub_004E4480)(const char* path, float value, unsigned long flagsIn, DWORD* varPtr, void* context);
-static sub_004E4480 VarSysCreateFloat = (sub_004E4480)(Memory::ScanAddress(0x4E4480));
-
-typedef int(__fastcall* sub_004E4220)(int IntName, int IntFunc, int Unk1);
-static sub_004E4220 VarSysRegisterHandler = (sub_004E4220)(Memory::ScanAddress(0x4E4220));
+static VarSysCreateInteger_t VarSysCreateInteger = (VarSysCreateInteger_t)(Memory::ScanAddress(0x4E4430));
+static VarSysCreateCmd_t VarSysCreateCmd = (VarSysCreateCmd_t)(Memory::ScanAddress(0x4E4520));
+static VarSysCreateString_t VarSysCreateString = (VarSysCreateString_t)(Memory::ScanAddress(0x4E43E0));
+static VarSysCreateFloat_t VarSysCreateFloat = (VarSysCreateFloat_t)(Memory::ScanAddress(0x4E4480));
+static VarSysRegisterHandler_t VarSysRegisterHandler = (VarSysRegisterHandler_t)(Memory::ScanAddress(0x4E4220));
 
 int VarSys::CreateInteger(const char* name, int value, int flagsIn, DWORD* varPtr, int context)
 {

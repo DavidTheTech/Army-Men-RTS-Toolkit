@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\system\Crc.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Studio.cpp" />
     <ClCompile Include="GameFuncs\game\GameGod.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_enumdx.cpp" />
@@ -158,8 +159,10 @@
     <ClCompile Include="GameFuncs\graphics\Terrain.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid.cpp" />
     <ClCompile Include="GameFuncs\system\Utils.cpp" />
+    <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\system\Crc.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Studio.h" />
     <ClInclude Include="GameFuncs\game\GameGod.h" />
     <ClInclude Include="GameFuncs\main\RunCodes.h" />
@@ -176,6 +179,10 @@
     <ClInclude Include="GameFuncs\graphics\Terrain.h" />
     <ClInclude Include="GameFuncs\graphics\Vid.h" />
     <ClInclude Include="GameFuncs\system\Utils.h" />
+    <ClInclude Include="Settings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="settings.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

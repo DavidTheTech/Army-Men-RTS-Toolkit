@@ -63,7 +63,7 @@ void LuaEngine::RegisterFunctions()
     //Log table
     lua_newtable(L);
 
-    //Client table
+    //Log.Client table
     lua_newtable(L);
 
     //Client.Write
@@ -75,7 +75,7 @@ void LuaEngine::RegisterFunctions()
     //_G.Log
     lua_setglobal(L, "Log");
 
-    //VarSys
+    //_G.VarSys
     lua_newtable(L);
     lua_pushcfunction(L, Lua_VarSysCreateCmd);
     lua_setfield(L, -2, "CreateCmd");
@@ -92,7 +92,6 @@ int LuaEngine::Lua_LogClientWrite(lua_State* L)
 int LuaEngine::Lua_VarSysCreateCmd(lua_State* L)
 {
     const char* name = luaL_checkstring(L, 1);
-    Log::Client::Write("err %s ", name);
     VarSys::CreateCmd(name, 0, 0);
     return 0;
 }

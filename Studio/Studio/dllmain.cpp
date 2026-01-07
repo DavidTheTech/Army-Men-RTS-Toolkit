@@ -15,6 +15,8 @@
 #include "GameFuncs\multiplayer\MultiPlayer.h"
 
 #include "LuaEngine\LuaEngine.h"
+#include "Settings.h"
+#include "GameFuncs/system/Crc.h"
 
 
 HANDLE SetupEverythingHandle = (HANDLE)NULL;
@@ -42,6 +44,9 @@ void SetupLuaEngine()
 
 void SetupEverything()
 {
+    Settings settings;
+    settings.LoadJson();
+
     Patches::ApplyAll();
 
     WaitForTrue(GameGod::IsInitialized());
@@ -50,8 +55,11 @@ void SetupEverything()
     DWORD runCodes = 0x7288E0;
     RunCodes::Register((DWORD*)runCodes, "Studio", (int)Studio::Process, (int)Studio::Init, (int)Studio::Done, (int)Studio::PostInit, 0);
 
-    //VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
-
+    if (settings.AutoLaunch)
+    {
+        Sleep(2000);
+        RunCodes::Set((DWORD*)runCodes, "Studio");
+    }
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -61,7 +69,6 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
         case DLL_PROCESS_ATTACH:
         {
             //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
-            //LOG_DIAG("[STUDIO DLL]: MinHook (thread creation)", 1);
             Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
             MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::Setup, NULL, 0, NULL);
 
