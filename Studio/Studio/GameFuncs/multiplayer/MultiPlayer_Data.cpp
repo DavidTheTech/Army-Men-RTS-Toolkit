@@ -1,4 +1,4 @@
-#include "MultiPlayer.h"
+#include "MultiPlayer_Data.h"
 
 typedef void(__fastcall* Multiplayer_Data_Send_t)(unsigned long crc, unsigned long size, const unsigned char* data, bool sync);
 

@@ -72,6 +72,15 @@
     <ClCompile Include="GameFuncs\system\Crc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameFuncs\styxnet\Styxnet_Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFuncs\util\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFuncs\multiplayer\MultiPlayer_Host.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -110,7 +119,7 @@
     <ClInclude Include="GameFuncs\graphics\Vid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameFuncs\multiplayer\MultiPlayer.h">
+    <ClInclude Include="GameFuncs\multiplayer\MultiPlayer_Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\system\Utils.h">
@@ -126,6 +135,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\system\Crc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\styxnet\Styxnet_Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\util\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\multiplayer\MultiPlayer_Host.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

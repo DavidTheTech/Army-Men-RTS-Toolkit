@@ -2,6 +2,8 @@
 
 #include "Hooks\Hooks.h"
 #include "Patches\Patches.h"
+#include "LuaEngine\LuaEngine.h"
+#include "Settings.h"
 
 #include "GameFuncs\system\defines.h"
 
@@ -12,12 +14,12 @@
 #include "GameFuncs\system\Utils.h"
 #include "GameFuncs\graphics\Vid.h"
 #include "GameFuncs\graphics\Terrain.h"
-#include "GameFuncs\multiplayer\MultiPlayer.h"
-
-#include "LuaEngine\LuaEngine.h"
-#include "Settings.h"
-#include "GameFuncs/system/Crc.h"
-
+#include "GameFuncs\multiplayer\MultiPlayer_Data.h"
+#include "GameFuncs\multiplayer\MultiPlayer_Host.h"
+#include "GameFuncs\system\Crc.h"
+#include "GameFuncs\styxnet\Styxnet_Client.h"
+#include "GameFuncs\util\Console.h"
+#include "GameFuncs\multiplayer\MultiPlayer_Host.h"
 
 HANDLE SetupEverythingHandle = (HANDLE)NULL;
 HANDLE MinHookHandle = (HANDLE)NULL;
@@ -60,6 +62,30 @@ void SetupEverything()
         Sleep(2000);
         RunCodes::Set((DWORD*)runCodes, "Studio");
     }
+}
+
+void LaunchMP()
+{
+    Sleep(10000);
+    Console::ProcessCmd("multiplayer.session.createdownload TestServ", 0, 0);
+    Console::ProcessCmd("multiplayer.server.start", 0, 0);
+    Sleep(5000);
+    Console::ProcessCmd("multiplayer.setup.setrandommission missions\\mp", 0, 0);
+
+    const unsigned char msg[] = "Locking in 15 seconds";
+    MultiPlayer::Data::Send(0x0FEC65C5, sizeof(msg) + 1, msg, false);
+    Sleep(15000);
+    StyxNet::Client::LockSession();
+
+    MultiPlayer::Host::FillAITeams();
+    MultiPlayer::Data::Send(0x19AA2502, 0, NULL, TRUE);
+    while (!MultiPlayer::Host::CheckLaunch())
+    {
+        const unsigned char msg2[] = "Ready up, retrying in 5 seconds";
+        MultiPlayer::Data::Send(0x0FEC65C5, sizeof(msg2) + 1, msg2, false);
+        Sleep(5000);
+    }
+    Console::ProcessCmd("multiplayer.setup.launch", 0, 0);
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
