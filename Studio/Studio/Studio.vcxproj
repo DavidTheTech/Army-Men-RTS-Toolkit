@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\system\Debug.cpp" />
     <ClCompile Include="GameFuncs\util\Console.cpp" />
     <ClCompile Include="GameFuncs\system\Crc.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Studio.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="LuaEngine\LuaEngine.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="GameFuncs\multiplayer\MultiPlayer_Host.cpp" />
+    <ClCompile Include="GameFuncs\coregame\Message.cpp" />
     <ClCompile Include="Patches\Patches.cpp" />
     <ClCompile Include="Patches\ConsoleEditPatch.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -172,6 +174,7 @@
     <ClCompile Include="GameFuncs\styxnet\Styxnet_Client.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\system\Debug.h" />
     <ClInclude Include="GameFuncs\util\Console.h" />
     <ClInclude Include="GameFuncs\system\Crc.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Studio.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="LuaEngine\LuaEngine.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="GameFuncs\multiplayer\MultiPlayer_Host.h" />
+    <ClInclude Include="GameFuncs\coregame\Message.h" />
     <ClInclude Include="Patches\Patches.h" />
     <ClInclude Include="Patches\ConsoleEditPatch.h" />
     <ClInclude Include="Hooks\Hooks.h" />

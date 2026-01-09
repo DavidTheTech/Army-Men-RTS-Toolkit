@@ -20,7 +20,8 @@
 #include "GameFuncs\styxnet\Styxnet_Client.h"
 #include "GameFuncs\util\Console.h"
 #include "GameFuncs\multiplayer\MultiPlayer_Host.h"
-#include "Server/Server.h"
+#include "Server\Server.h"
+#include "GameFuncs\system\Debug.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
@@ -80,6 +81,8 @@ void SetupEverything()
         Sleep(2000);
         RunCodes::Set((DWORD*)runCodes, "Studio");
     }
+
+    Debug::CallStack::FPURegisters(0x0);
 }
 
 void LaunchMP()
@@ -106,31 +109,30 @@ void LaunchMP()
     Console::ProcessCmd("multiplayer.setup.launch", 0, 0);
 }
 
-BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
     switch (ul_reason_for_call)
     {
-        case DLL_PROCESS_ATTACH:
-        {
-            //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
-            Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
-            MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::Setup, NULL, 0, NULL);
+    case DLL_PROCESS_ATTACH:
+    {
+        //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
+        Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
+        MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::Setup, NULL, 0, NULL);
 
-            Log::Client::Write("[STUDIO DLL]: SetupEverything");
-            SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
+        Log::Client::Write("[STUDIO DLL]: SetupEverything");
+        SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
 
-            Log::Client::Write("[STUDIO DLL]: Lua Engine");
-            LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);
+        Log::Client::Write("[STUDIO DLL]: Lua Engine");
+        LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);
 
-            Log::Client::Write("[STUDIO DLL]: Multiplayer Controls");
-            MultiplayerServerHandle = CreateThread(NULL, 0, MultiplayerStartup, NULL, 0, NULL);
-            SetThreadPriority(MultiplayerServerHandle, THREAD_PRIORITY_BELOW_NORMAL);
-        }
-        case DLL_THREAD_ATTACH:
-        case DLL_THREAD_DETACH:
-        case DLL_PROCESS_DETACH:
-            break;
+        Log::Client::Write("[STUDIO DLL]: Multiplayer Controls");
+        MultiplayerServerHandle = CreateThread(NULL, 0, MultiplayerStartup, NULL, 0, NULL);
+        SetThreadPriority(MultiplayerServerHandle, THREAD_PRIORITY_BELOW_NORMAL);
+    }
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
     }
     return TRUE;
 }
-

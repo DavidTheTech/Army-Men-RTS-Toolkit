@@ -22,7 +22,7 @@ void Server::init()
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"AMRTS SERV CTRL", nullptr };
     RegisterClassExW(&wc);
 
-    g_hwnd = CreateWindowW(wc.lpszClassName, L"Army Men RTS Server Controls", WS_POPUP, 100, 100, 420, 200, nullptr, nullptr, wc.hInstance, nullptr);
+    g_hwnd = CreateWindowW(wc.lpszClassName, L"Army Men RTS Server Controls", WS_POPUP, 100, 100, 850, 400, nullptr, nullptr, wc.hInstance, nullptr);
 
     if (!CreateDeviceD3D(g_hwnd))
     {
@@ -69,9 +69,18 @@ void Server::init()
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+
+        ImGuiIO& io = ImGui::GetIO();
+        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize(ImVec2(850, 400));
+
+        ImGui::Begin("Army Men RTS Server Controls", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
         
-        ImGui::SetNextWindowSize(ImVec2(420, 200), ImGuiCond_Always);
-        ImGui::Begin("Army Men RTS Server Controls", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+        ImGui::SameLine(ImGui::GetWindowWidth() - 30);
+        if (ImGui::SmallButton("X"))
+        {
+            showExitPopup = true;
+        }
 
         if (ImGui::Button("Hello World"))
         {

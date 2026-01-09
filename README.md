@@ -39,4 +39,4 @@ This project depends on the following libraries:
 Make sure all library files and headers are placed in the correct folders before compiling the project.
 
 ## Discord
-[![Discord Developers](https://invite.casperiv.dev?inviteCode=Y3jy4NJJZf))](https://discord.gg/Y3jy4NJJZf)
+[![Discord Developers](https://invite.casperiv.dev?inviteCode=Y3jy4NJJZf)](https://discord.gg/Y3jy4NJJZf)
