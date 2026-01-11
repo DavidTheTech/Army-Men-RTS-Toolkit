@@ -22,6 +22,7 @@
 #include "GameFuncs\multiplayer\MultiPlayer_Host.h"
 #include "Server\Server.h"
 #include "GameFuncs\system\Debug.h"
+#include "GameFuncs\interface\IFace_Util.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
@@ -51,7 +52,7 @@ DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
 {
     CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
-    int result = MessageBoxA(NULL, "Do you want to start the server?", "Server Initialization", MB_YESNO | MB_ICONQUESTION);
+    int result = MessageBoxA(NULL, "Do you want to start the server launcher?", "Server Initialization", MB_YESNO | MB_ICONQUESTION);
     if (result == IDYES)
     {
         Server* server = new Server();
@@ -82,7 +83,17 @@ void SetupEverything()
         RunCodes::Set((DWORD*)runCodes, "Studio");
     }
 
-    Debug::CallStack::FPURegisters(0x0);
+    //Add missing cmds
+    VarSys::CreateCmd("team.list", 0, 0);
+
+    //these exist but their handler doesnt contain their code
+    //TODO: hook 0x490030 check if crc matches arg n call our own handler if not continue
+    VarSys::CreateCmd("iface.setalpha");
+    VarSys::CreateCmd("iface.fadeup");
+    VarSys::CreateCmd("iface.testmodechange");
+    VarSys::CreateCmd("iface.testmsgbox");
+
+    IFace::ScreenDump();
 }
 
 void LaunchMP()
