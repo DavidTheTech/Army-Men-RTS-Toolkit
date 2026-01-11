@@ -26,10 +26,13 @@ static bool __cdecl detourToggleWindowedMode()
 
     if (*curMode != VIDMODEWINDOW)
     {
-        Log::Client::Write("ab");
-        Vid::InitDD(true);
-        Log::Client::Write("bb");
-        return Vid::SetMode(VIDMODEWINDOW, 800, 600, true);
+        //Log::Client::Write("ab");
+        //Vid::InitDD(true);
+        //Log::Client::Write("bb");
+
+        //Attempting to RaiseException "FATAL" msg:SetMode; ddx->SetDisplayMode module:D:\Src\code\graphics\vid.cpp line:489
+
+        //return Vid::SetMode(VIDMODEWINDOW, 800, 600, true);
     }
 
     return realVidToggleWindowedMode();
