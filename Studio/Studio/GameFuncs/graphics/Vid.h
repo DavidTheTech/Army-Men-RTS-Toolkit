@@ -5,6 +5,7 @@
 class Vid
 {
 public:
+    static bool ToggleWindowedMode();//Look at hooks.cpp
     static bool SetMode(unsigned long mode, unsigned long width, unsigned long height, bool force);
     static bool InitSurfaces();
     static bool SetCoopLevel();
@@ -22,5 +23,5 @@ public:
     static unsigned long Report();
 
     //vid_enumdx
-    static bool InitDD(bool noPick);
+    static bool InitDD(bool noPick = false);
 };

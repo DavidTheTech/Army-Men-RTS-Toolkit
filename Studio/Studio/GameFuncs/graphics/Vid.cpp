@@ -1,6 +1,7 @@
 #include "Vid.h"
 
-typedef bool(__cdecl* Vid_SetMode_t)(unsigned long mode, unsigned long width, unsigned long height, bool force);
+typedef bool(__cdecl* Vid_ToggleWindowedMode_t)();
+typedef bool(__fastcall* Vid_SetMode_t)(unsigned long mode, unsigned long width, unsigned long height, bool force);
 typedef bool(__cdecl* Vid_InitSurfaces_t)();
 typedef bool(__cdecl* Vid_SetCoopLevel_t)();
 typedef void(__cdecl* Vid_OnActivate_t)();
@@ -16,6 +17,7 @@ typedef void(__cdecl* Vid_LogPerf_t)(const char* format, ...);
 typedef void(__cdecl* Vid_ReportMode_t)(unsigned long report);
 typedef unsigned long(__cdecl* Vid_Report_t)();
 
+static Vid_ToggleWindowedMode_t ToggleWindowedMode_Fn = (Vid_ToggleWindowedMode_t)(Memory::ScanAddress(0x41DD40));
 static Vid_SetMode_t SetMode_Fn = (Vid_SetMode_t)(Memory::ScanAddress(0x41DD50));
 static Vid_InitSurfaces_t InitSurfaces_Fn = (Vid_InitSurfaces_t)(Memory::ScanAddress(0x41F4C0));
 static Vid_SetCoopLevel_t SetCoopLevel_Fn = (Vid_SetCoopLevel_t)(Memory::ScanAddress(0x41F9F0));
@@ -31,6 +33,11 @@ static Vid_SetGamma_t SetGamma_Fn = (Vid_SetGamma_t)(Memory::ScanAddress(0x42064
 static Vid_LogPerf_t LogPerf_Fn = (Vid_LogPerf_t)(Memory::ScanAddress(0x4206E0));
 static Vid_ReportMode_t ReportMode_Fn = (Vid_ReportMode_t)(Memory::ScanAddress(0x420730));
 static Vid_Report_t Report_Fn = (Vid_Report_t)(Memory::ScanAddress(0x420B80));
+
+bool Vid::ToggleWindowedMode()
+{
+    return ToggleWindowedMode_Fn();
+}
 
 bool Vid::SetMode(unsigned long mode, unsigned long width, unsigned long height, bool force)
 {
