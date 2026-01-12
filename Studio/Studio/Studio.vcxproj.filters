@@ -111,6 +111,9 @@
     <ClCompile Include="GameFuncs\interface\IFace_Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Patches\SingleInstancePatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -210,6 +213,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\interface\IFace_Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Patches\SingleInstancePatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

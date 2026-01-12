@@ -66,10 +66,10 @@ DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
 
 void SetupEverything()
 {
+    Patches::ApplyAll();
+
     Settings settings;
     settings.LoadJson();
-
-    Patches::ApplyAll();
 
     WaitForTrue(GameGod::IsInitialized());
 

@@ -24,4 +24,5 @@ public:
 
     //vid_enumdx
     static bool InitDD(bool noPick = false);
+    static bool PickVidMode();
 };

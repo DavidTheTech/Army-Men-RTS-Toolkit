@@ -1,6 +1,7 @@
 #include "Hooks.h"
 #include "../GameFuncs/graphics/Vid.h"
 #include "../GameFuncs/system/Log.h"
+#include "../Patches/Patches.h"
 
 typedef void(__fastcall* InitBuckets_t)(unsigned int count, unsigned int size, float ratio, int flush, unsigned int tcount, unsigned int tsize, float tratio);
 static InitBuckets_t realInitBuckets = nullptr;
@@ -24,7 +25,7 @@ static bool __cdecl detourToggleWindowedMode()
     static U32* curDD = reinterpret_cast<U32*>(0x6BD5A0);
     U32 VIDMODEWINDOW = 254;
 
-    if (*curMode != VIDMODEWINDOW)
+    if (*curMode == VIDMODEWINDOW)
     {
         //Log::Client::Write("ab");
         //Vid::InitDD(true);

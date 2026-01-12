@@ -173,6 +173,7 @@
     <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="GameFuncs\styxnet\Styxnet_Client.cpp" />
+    <ClCompile Include="Patches\SingleInstancePatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\system\Debug.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Server\Server.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="GameFuncs\styxnet\Styxnet_Client.h" />
+    <ClInclude Include="Patches\SingleInstancePatch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="settings.json" />
