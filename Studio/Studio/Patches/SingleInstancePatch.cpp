@@ -2,12 +2,12 @@
 
 void SingleInstancePatch::Apply()
 {
-    //Sleep(1500);
-    DWORD addr = Memory::ScanAddress(0x004B4792);
+    DWORD addr = Memory::ScanAddress(0x4B4792);
 
     DWORD old;
     VirtualProtect((LPVOID)addr, 1, PAGE_EXECUTE_READWRITE, &old);
-    *(BYTE*)addr = 0xEB;
+    *(BYTE*)addr = 0x90;
+    *(BYTE*)(addr + 0x01) = 0x90;
     VirtualProtect((LPVOID)addr, 1, old, &old);
     FlushInstructionCache(GetCurrentProcess(), (LPVOID)addr, 1);
 
@@ -26,5 +26,6 @@ void SingleInstancePatch::Apply()
         Hex
         004B4780  XX XX XX XX XX XX XX XX  57 56 FF 15 CC A2 66 00
         004B4790  3B C7 74 12 XX XX XX XX  XX XX XX XX XX XX XX XX
+                        90^90
     */
 }

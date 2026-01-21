@@ -114,6 +114,9 @@
     <ClCompile Include="Patches\SingleInstancePatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameFuncs\main\MainInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -216,6 +219,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Patches\SingleInstancePatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\main\Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

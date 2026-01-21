@@ -10,8 +10,10 @@ void Patches::ApplyAll()
     //CreateControl("Edit", "ConsoleEdit")
     ConsoleEditPatch::Apply();
 
+
+    //MOVED TO Hooks.cpp
     //Allows multiple instances of the game to run at once
     //instead of using a sandbox like sandboxie
-    SingleInstancePatch::Apply();
-    printf("swag");
+
+    //SingleInstancePatch::Apply();
 }

@@ -66,8 +66,6 @@ DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
 
 void SetupEverything()
 {
-    Patches::ApplyAll();
-
     Settings settings;
     settings.LoadJson();
 
@@ -126,9 +124,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     {
     case DLL_PROCESS_ATTACH:
     {
+        DisableThreadLibraryCalls(hModule);
         //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
         Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
-        MinHookHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Hooks::Setup, NULL, 0, NULL);
+        Hooks::Setup();
+        Patches::ApplyAll();
+
 
         Log::Client::Write("[STUDIO DLL]: SetupEverything");
         SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);

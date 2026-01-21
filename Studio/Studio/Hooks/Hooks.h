@@ -11,5 +11,5 @@
 class Hooks
 {
 public:
-	static DWORD WINAPI Setup(HINSTANCE hModule);
+	static bool Setup();
 };

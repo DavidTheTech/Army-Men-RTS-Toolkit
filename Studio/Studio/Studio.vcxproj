@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\main\MainInit.cpp" />
     <ClCompile Include="GameFuncs\system\Debug.cpp" />
     <ClCompile Include="GameFuncs\util\Console.cpp" />
     <ClCompile Include="GameFuncs\system\Crc.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Patches\SingleInstancePatch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\main\Main.h" />
     <ClInclude Include="GameFuncs\system\Debug.h" />
     <ClInclude Include="GameFuncs\util\Console.h" />
     <ClInclude Include="GameFuncs\system\Crc.h" />

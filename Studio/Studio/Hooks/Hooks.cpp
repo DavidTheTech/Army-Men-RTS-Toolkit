@@ -2,6 +2,7 @@
 #include "../GameFuncs/graphics/Vid.h"
 #include "../GameFuncs/system/Log.h"
 #include "../Patches/Patches.h"
+#include "../GameFuncs/main/Main.h"
 
 typedef void(__fastcall* InitBuckets_t)(unsigned int count, unsigned int size, float ratio, int flush, unsigned int tcount, unsigned int tsize, float tratio);
 static InitBuckets_t realInitBuckets = nullptr;
@@ -18,6 +19,53 @@ static CoreGameInit_t hookCoreGameInit = reinterpret_cast<CoreGameInit_t>(0x53D7
 typedef bool(__cdecl* Vid_ToggleWindowedMode_t)();
 static Vid_ToggleWindowedMode_t realVidToggleWindowedMode = nullptr;
 static Vid_ToggleWindowedMode_t hookVidToggleWindowedMode = reinterpret_cast<Vid_ToggleWindowedMode_t>(0x41DD40);
+
+typedef HWND(__fastcall* Main_CreateGameWindow_t)(LPCSTR lpWindowName, LPCSTR lpClassName);
+static Main_CreateGameWindow_t realMainCreateGameWindow = nullptr;
+static Main_CreateGameWindow_t hookMainCreateGameWindow = reinterpret_cast<Main_CreateGameWindow_t>(0x4B4770);
+
+typedef int(__stdcall* WndProc_t)(HWND hWnd, UINT Msg, int wParam, unsigned int lParam);
+static WndProc_t Main_WndProc = reinterpret_cast<WndProc_t>(0x4B44F0);
+
+typedef HWND(__cdecl* CreateMainWindow_t)();
+static CreateMainWindow_t realCreateMainWindow = nullptr;
+static CreateMainWindow_t hookCreateMainWindow = reinterpret_cast<CreateMainWindow_t>(0x401CD0);
+
+static HWND __cdecl detourCreateMainWindow()
+{
+    return Main::CreateGameWindow("hello", "Hello");
+}
+
+static HWND __fastcall detourMainCreateGameWindow(LPCSTR lpWindowName, LPCSTR lpClassName)
+{
+    HWND WindowA;
+    HMODULE ModuleHandleA;
+    WNDCLASSA wc = {};
+
+    HINSTANCE hI = *reinterpret_cast<HINSTANCE*>(Memory::ScanAddress(0x728A94));
+
+    //if (dword_728AB0 || (WindowA = FindWindowA(lpClassName, 0)) == 0) //Old logic
+
+    wc.style = 3;
+    wc.lpfnWndProc = reinterpret_cast<WNDPROC>(Main_WndProc);
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = hI;
+    ModuleHandleA = GetModuleHandleA(0);
+    wc.hIcon = LoadIconA(ModuleHandleA, (LPCSTR)0x65);
+    wc.hCursor = 0;
+    wc.hbrBackground = (HBRUSH)GetStockObject(4);
+    wc.lpszMenuName = 0;
+    wc.lpszClassName = lpClassName;
+    
+    if (RegisterClassA(&wc))
+    {
+        return CreateWindowExA(0, lpClassName, lpWindowName, 0xC00000u, 0, 0, 0, 0, 0, 0, hI, 0);
+    }
+    
+    return 0;
+    
+}
 
 static bool __cdecl detourToggleWindowedMode()
 {
@@ -72,7 +120,7 @@ static void __fastcall detourCoreGameInit()
     realCoreGameInit();
 }
 
-DWORD WINAPI Hooks::Setup(HINSTANCE hModule)
+bool Hooks::Setup()
 {
     MH_STATUS status = MH_Initialize();
     if (status != MH_OK)
@@ -82,15 +130,19 @@ DWORD WINAPI Hooks::Setup(HINSTANCE hModule)
         return 0;
     }
 
-    if (MH_CreateHook(reinterpret_cast<void**>(hookCoreGameInit), &detourCoreGameInit, reinterpret_cast<void**>(&realCoreGameInit)) != MH_OK) return 1;
-    if (MH_CreateHook(reinterpret_cast<void**>(hookInitBuckets), &detourInitBuckets, reinterpret_cast<void**>(&realInitBuckets)) != MH_OK) return 1;
-    if (MH_CreateHook(reinterpret_cast<void**>(hookHeapInit), &detourHeapInit, reinterpret_cast<void**>(&realHeapInit)) != MH_OK) return 1;
-    if (MH_CreateHook(reinterpret_cast<void**>(hookVidToggleWindowedMode), &detourToggleWindowedMode, reinterpret_cast<void**>(&realVidToggleWindowedMode)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookCreateMainWindow), &detourCreateMainWindow, reinterpret_cast<void**>(&realCreateMainWindow)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookMainCreateGameWindow), &detourMainCreateGameWindow, reinterpret_cast<void**>(&realMainCreateGameWindow)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookCoreGameInit), &detourCoreGameInit, reinterpret_cast<void**>(&realCoreGameInit)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookInitBuckets), &detourInitBuckets, reinterpret_cast<void**>(&realInitBuckets)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookHeapInit), &detourHeapInit, reinterpret_cast<void**>(&realHeapInit)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookVidToggleWindowedMode), &detourToggleWindowedMode, reinterpret_cast<void**>(&realVidToggleWindowedMode)) != MH_OK) return 1;
 
-    if (MH_EnableHook(reinterpret_cast<void**>(hookCoreGameInit)) != MH_OK) return 1;
-    if (MH_EnableHook(reinterpret_cast<void**>(hookInitBuckets)) != MH_OK) return 1;
-    if (MH_EnableHook(reinterpret_cast<void**>(hookHeapInit)) != MH_OK) return 1;
-    if (MH_EnableHook(reinterpret_cast<void**>(hookVidToggleWindowedMode)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookCreateMainWindow)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookMainCreateGameWindow)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookCoreGameInit)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookInitBuckets)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookHeapInit)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookVidToggleWindowedMode)) != MH_OK) return 1;
 
     /*
     if (MH_CreateHook(reinterpret_cast<void**>(hookVidRenderBegin), &detourVidRenderBegin, reinterpret_cast<void**>(&realVidRenderBegin)) != MH_OK) return 1;
