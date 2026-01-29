@@ -4,8 +4,9 @@
 
 namespace MultiPlayer
 {
-    namespace Data
+    class Data
     {
-        void Send(unsigned long crc, unsigned long size, const unsigned char* data, bool sync);
-    }
+    public:
+        static void Send(unsigned long crc, unsigned long size, const unsigned char* data, bool sync);
+    };
 }

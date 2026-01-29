@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include "ConsoleEditPatch.h"
 #include "SingleInstancePatch.h"
+#include "../GameFuncs/system/Log.h"
 
 void Patches::ApplyAll()
 {
     //Re-adds the ingame console
     //would crash if you called \/ ConsoleEdit
     //CreateControl("Edit", "ConsoleEdit")
+    Log::Client::Write("ConsoleEditPatch::Apply()");
     ConsoleEditPatch::Apply();
 
 

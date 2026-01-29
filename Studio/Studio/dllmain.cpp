@@ -23,11 +23,13 @@
 #include "Server\Server.h"
 #include "GameFuncs\system\Debug.h"
 #include "GameFuncs\interface\IFace_Util.h"
+#include "Utils/CursorLocking.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
 HANDLE LuaEngineHandle = NULL;
 HANDLE MultiplayerServerHandle = NULL;
+HANDLE CursorLockHandle = NULL;
 
 inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
 {
@@ -64,6 +66,25 @@ DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
     return 0;
 }
 
+void LockCursor(int cursorLockTimer)
+{
+    EnumWindows(EnumWindowsProc, 0);
+    if (targetWindow == NULL)
+    {
+        return; 
+    }
+
+    while (true)
+    {
+        GetWindowDimensions(targetWindow);
+        if (IsWindowOnTop(targetWindow))
+        {
+            LockCursorInWindow();
+        }
+        Sleep(cursorLockTimer);
+    }
+}
+
 void SetupEverything()
 {
     Settings settings;
@@ -81,8 +102,14 @@ void SetupEverything()
         RunCodes::Set((DWORD*)runCodes, "Studio");
     }
 
+    if (settings.DoWeLockCursor)
+    {
+        CursorLockHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LockCursor, (LPVOID)(size_t)settings.CursorLockTimer, NULL, NULL);
+    }
+
     //Add missing cmds
     VarSys::CreateCmd("team.list", 0, 0);
+    VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
 
     //these exist but their handler doesnt contain their code
     //TODO: hook 0x490030 check if crc matches arg n call our own handler if not continue
@@ -90,32 +117,6 @@ void SetupEverything()
     VarSys::CreateCmd("iface.fadeup");
     VarSys::CreateCmd("iface.testmodechange");
     VarSys::CreateCmd("iface.testmsgbox");
-
-    IFace::ScreenDump();
-}
-
-void LaunchMP()
-{
-    Sleep(10000);
-    Console::ProcessCmd("multiplayer.session.createdownload TestServ", 0, 0);
-    Console::ProcessCmd("multiplayer.server.start", 0, 0);
-    Sleep(5000);
-    Console::ProcessCmd("multiplayer.setup.setrandommission missions\\mp", 0, 0);
-
-    const unsigned char msg[] = "Locking in 15 seconds";
-    MultiPlayer::Data::Send(0x0FEC65C5, sizeof(msg) + 1, msg, false);
-    Sleep(15000);
-    StyxNet::Client::LockSession();
-
-    MultiPlayer::Host::FillAITeams();
-    MultiPlayer::Data::Send(0x19AA2502, 0, NULL, TRUE);
-    while (!MultiPlayer::Host::CheckLaunch())
-    {
-        const unsigned char msg2[] = "Ready up, retrying in 5 seconds";
-        MultiPlayer::Data::Send(0x0FEC65C5, sizeof(msg2) + 1, msg2, false);
-        Sleep(5000);
-    }
-    Console::ProcessCmd("multiplayer.setup.launch", 0, 0);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -128,8 +129,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
         //IMPORTANT HOOKS ARE THE FIRST THING TO BE SETUP
         Log::Client::Write("[STUDIO DLL]: Hooks::Setup");
         Hooks::Setup();
-        Patches::ApplyAll();
 
+        Log::Client::Write("[STUDIO DLL]: Patches::ApplyAll");
+        Patches::ApplyAll();
 
         Log::Client::Write("[STUDIO DLL]: SetupEverything");
         SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);

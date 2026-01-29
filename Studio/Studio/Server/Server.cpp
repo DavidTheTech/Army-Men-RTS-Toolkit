@@ -2,13 +2,55 @@
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_win32.h"
 #include "Imgui\imgui_impl_dx9.h"
+#include "../GameFuncs/util/Console.h"
+#include "../GameFuncs/multiplayer/MultiPlayer_Data.h"
+#include "../GameFuncs/multiplayer/MultiPlayer_Host.h"
+#include "../GameFuncs/styxnet/Styxnet_Client.h"
+#include <string>
 
 #pragma comment(lib, "d3d9.lib")
 
 Server* Server::s_instance = nullptr;
 
+//Move this to a different function, only here for testing
+void LaunchMP()
+{
+    Console::ProcessCmd("multiplayer.session.createdownload TestServ", 0, 0);
+    Console::ProcessCmd("multiplayer.server.start", 0, 0);
+    Sleep(5000);
+    Console::ProcessCmd("multiplayer.setup.setrandommission missions\\mp", 0, 0);
+
+    const unsigned char msg[] = "Locking in 15 seconds";
+    MultiPlayer::Data::Send(0xFEC65C5, sizeof(msg) + 1, msg, false);
+    Sleep(15000);
+    StyxNet::Client::LockSession();
+
+    MultiPlayer::Host::FillAITeams();
+    MultiPlayer::Data::Send(0x19AA2502, 0, NULL, TRUE);
+    while (!MultiPlayer::Host::CheckLaunch())
+    {
+        const unsigned char msg2[] = "Ready up, retrying in 5 seconds";
+        MultiPlayer::Data::Send(0x0FEC65C5, sizeof(msg2) + 1, msg2, false);
+        Sleep(5000);
+    }
+    Console::ProcessCmd("multiplayer.setup.launch", 0, 0);
+}
+
 void Server::init()
 {
+    userList.Init();
+
+    User usr;
+    usr.id = 0;
+    usr.name = "swag0";
+
+    User usr2;
+    usr2.id = 1;
+    usr2.name = "swag1";
+
+    userList.AddUser(usr);
+    userList.AddUser(usr2);
+
     s_instance = this;
 
     g_pD3D = nullptr;
@@ -82,9 +124,42 @@ void Server::init()
             showExitPopup = true;
         }
 
-        if (ImGui::Button("Hello World"))
+        if (ImGui::Button("Launch Test"))
+        {
+            //WARNING UI WILL FREEZE UNTIL SERV HAS STARTED
+            LaunchMP();
+        }
+
+        ImGui::Columns(3, "main_columns", true);
+        ImGui::SetColumnWidth(0, 200);
+        ImGui::SetColumnWidth(1, ImGui::GetWindowWidth() - 400);
+        ImGui::SetColumnWidth(2, 200);
+
+        ImGui::BeginChild("UserListPanel", ImVec2(0, 300), true);
+        ImGui::Text("USER LIST");
+        ImGui::Separator();
+
+        std::string clickedUser = userList.Render();
+        if (!clickedUser.empty())
         {
 
+        }
+
+        ImGui::EndChild();
+
+        if (ImGui::Button("Kick"))
+        {
+        }
+        ImGui::SameLine();
+
+        if (ImGui::Button("Ban"))
+        {
+        }
+        ImGui::SameLine();
+
+        if (ImGui::Button("Refresh"))
+        {
+            userList.LoadUsers();
         }
 
         ImGui::End();

@@ -6,6 +6,5 @@ static CreateGameWindow_t CreateGameWindowFn = (CreateGameWindow_t)(Memory::Scan
 
 HWND __fastcall Main::CreateGameWindow(LPCSTR lpWindowName, LPCSTR lpClassName)
 {
-    printf("swag money\n");
     return CreateGameWindowFn(lpWindowName, lpClassName);
 }

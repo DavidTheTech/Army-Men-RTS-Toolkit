@@ -25,4 +25,11 @@ public:
     //vid_enumdx
     static bool InitDD(bool noPick = false);
     static bool PickVidMode();
+    
+    //vid_config
+    class Config
+    {
+    public:
+        static U32 SelectCard();
+    };
 };

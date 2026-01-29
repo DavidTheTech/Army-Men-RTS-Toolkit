@@ -33,7 +33,7 @@ static CreateMainWindow_t hookCreateMainWindow = reinterpret_cast<CreateMainWind
 
 static HWND __cdecl detourCreateMainWindow()
 {
-    return Main::CreateGameWindow("hello", "Hello");
+    return Main::CreateGameWindow("Army Men RTS Studio", "AMRTS_STUDIO");
 }
 
 static HWND __fastcall detourMainCreateGameWindow(LPCSTR lpWindowName, LPCSTR lpClassName)

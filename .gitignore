@@ -17,6 +17,9 @@ Includes/json.hpp
 #ImGui
 Studio/Studio/Server/ImGui
 
+#Installer
+Installer/
+
 #not for release yet
 Docs/
 ClassGen.py

@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d9.h>
 #include <Windows.h>
+#include "UserListModule.h"
 
 class Server
 {
@@ -26,4 +27,6 @@ private:
     POINT dragOffset;
 
     static Server* s_instance;
+
+    UserListModule userList;
 };
