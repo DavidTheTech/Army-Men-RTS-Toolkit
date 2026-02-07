@@ -23,13 +23,15 @@
 #include "Server\Server.h"
 #include "GameFuncs\system\Debug.h"
 #include "GameFuncs\interface\IFace_Util.h"
-#include "Utils/CursorLocking.h"
+#include "Utils\CursorLocking.h"
+#include "Utils\GameConsole.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
 HANDLE LuaEngineHandle = NULL;
 HANDLE MultiplayerServerHandle = NULL;
 HANDLE CursorLockHandle = NULL;
+HANDLE HandlersHandle = NULL;
 
 inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
 {
@@ -90,6 +92,11 @@ void SetupEverything()
     Settings settings;
     settings.LoadJson();
 
+    GameConsole gConsole;
+    gConsole.Start();
+
+    
+
     WaitForTrue(GameGod::IsInitialized());
 
     //Studio
@@ -119,6 +126,44 @@ void SetupEverything()
     VarSys::CreateCmd("iface.testmsgbox");
 }
 
+//BROKEN FIX THIS SHIT
+void __cdecl clientHandler(U32 value)
+{
+    switch (value)
+        case 0x2185FED7:
+        {
+            /*if (data.sList.GetCount())
+          {
+            for (UnitObjList::Iterator i(&data.sList); *i; i++)
+            {
+              if ((*i)->Alive())
+              {
+                (**i)->SelfDestruct(TRUE);
+              }
+            }
+          }
+          else
+
+          if (data.cInfo.gameWnd.Alive() && data.cInfo.o.map.Alive())
+          {
+            data.cInfo.o.map->SelfDestruct(TRUE);
+          }
+
+          break;*/
+            Log::Client::Write("HELLO TOMMY!!!!3");
+            break;
+        }
+}
+
+void Handlers()
+{
+    Log::Client::Write("HELLO TOMMY!!!!1");
+
+    VarSys::RegisterHandler("client.development", clientHandler);
+    Log::Client::Write("HELLO TOMMY!!!!2");
+    VarSys::CreateCmd("client.development.blastthosebastards");
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
     switch (ul_reason_for_call)
@@ -135,6 +180,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 
         Log::Client::Write("[STUDIO DLL]: SetupEverything");
         SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
+
+        Log::Client::Write("[STUDIO DLL]: Handlers");
+        HandlersHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Handlers, NULL, NULL, NULL);
 
         Log::Client::Write("[STUDIO DLL]: Lua Engine");
         LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);

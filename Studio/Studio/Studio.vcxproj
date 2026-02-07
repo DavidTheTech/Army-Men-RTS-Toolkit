@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
+    <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
     <ClCompile Include="GameFuncs\main\MainInit.cpp" />
     <ClCompile Include="GameFuncs\system\Debug.cpp" />
@@ -181,9 +183,13 @@
     <ClCompile Include="GameFuncs\styxnet\Styxnet_Client.cpp" />
     <ClCompile Include="Patches\SingleInstancePatch.cpp" />
     <ClCompile Include="Server\UserListModule.cpp" />
+    <ClCompile Include="GameFuncs\coregame_objects\UnitObj.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
+    <ClInclude Include="Utils\GameConsole.h" />
     <ClInclude Include="Server\UserListModule.h" />
+    <ClInclude Include="GameFuncs\coregame_objects\UnitObj.h" />
     <ClInclude Include="Utils\CursorLocking.h" />
     <ClInclude Include="GameFuncs\main\Main.h" />
     <ClInclude Include="GameFuncs\system\Debug.h" />

@@ -123,6 +123,15 @@
     <ClCompile Include="Server\UserListModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameFuncs\coregame_objects\UnitObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\GameConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -234,6 +243,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Server\UserListModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\coregame_objects\UnitObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\GameConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\coregame_orders\Orders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
