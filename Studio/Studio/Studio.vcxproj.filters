@@ -132,6 +132,9 @@
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Handlers\Handlers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -252,6 +255,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Handlers\Handlers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Internals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

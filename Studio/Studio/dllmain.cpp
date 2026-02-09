@@ -1,12 +1,16 @@
 #include <windows.h>
 
+#include "Settings.h"
 #include "Hooks\Hooks.h"
 #include "Patches\Patches.h"
 #include "LuaEngine\LuaEngine.h"
-#include "Settings.h"
+#include "Utils\CursorLocking.h"
+#include "Utils\GameConsole.h"
+#include "Utils\Internals.h"
+#include "Handlers\Handlers.h"
+#include "Server\Server.h"
 
 #include "GameFuncs\system\defines.h"
-
 #include "GameFuncs\game\GameGod.h"
 #include "GameFuncs\main\Runcodes.h"
 #include "GameFuncs\coregame_interface\Studio.h"
@@ -20,11 +24,8 @@
 #include "GameFuncs\styxnet\Styxnet_Client.h"
 #include "GameFuncs\util\Console.h"
 #include "GameFuncs\multiplayer\MultiPlayer_Host.h"
-#include "Server\Server.h"
 #include "GameFuncs\system\Debug.h"
 #include "GameFuncs\interface\IFace_Util.h"
-#include "Utils\CursorLocking.h"
-#include "Utils\GameConsole.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
@@ -33,17 +34,9 @@ HANDLE MultiplayerServerHandle = NULL;
 HANDLE CursorLockHandle = NULL;
 HANDLE HandlersHandle = NULL;
 
-inline void WaitForTrue(volatile bool* flag, DWORD sleepMs = 1)
-{
-    while (!*flag)
-    {
-        Sleep(sleepMs);
-    }
-}
-
 void SetupLuaEngine()
 {
-    WaitForTrue(GameGod::IsInitialized());
+    Internals::WaitForTrue(GameGod::IsInitialized());
 
     LuaEngine lua;
     lua.Initialize();
@@ -97,7 +90,7 @@ void SetupEverything()
 
     
 
-    WaitForTrue(GameGod::IsInitialized());
+    Internals::WaitForTrue(GameGod::IsInitialized());
 
     //Studio
     DWORD runCodes = 0x7288E0;
@@ -126,42 +119,10 @@ void SetupEverything()
     VarSys::CreateCmd("iface.testmsgbox");
 }
 
-//BROKEN FIX THIS SHIT
-void __cdecl clientHandler(U32 value)
+void HandlersFn()
 {
-    switch (value)
-        case 0x2185FED7:
-        {
-            /*if (data.sList.GetCount())
-          {
-            for (UnitObjList::Iterator i(&data.sList); *i; i++)
-            {
-              if ((*i)->Alive())
-              {
-                (**i)->SelfDestruct(TRUE);
-              }
-            }
-          }
-          else
-
-          if (data.cInfo.gameWnd.Alive() && data.cInfo.o.map.Alive())
-          {
-            data.cInfo.o.map->SelfDestruct(TRUE);
-          }
-
-          break;*/
-            Log::Client::Write("HELLO TOMMY!!!!3");
-            break;
-        }
-}
-
-void Handlers()
-{
-    Log::Client::Write("HELLO TOMMY!!!!1");
-
-    VarSys::RegisterHandler("client.development", clientHandler);
-    Log::Client::Write("HELLO TOMMY!!!!2");
-    VarSys::CreateCmd("client.development.blastthosebastards");
+    Handlers handlers;
+    handlers.LoadHandlers();
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -182,7 +143,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
         SetupEverythingHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupEverything, NULL, NULL, NULL);
 
         Log::Client::Write("[STUDIO DLL]: Handlers");
-        HandlersHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Handlers, NULL, NULL, NULL);
+        HandlersHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)HandlersFn, NULL, NULL, NULL);
 
         Log::Client::Write("[STUDIO DLL]: Lua Engine");
         LuaEngineHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SetupLuaEngine, NULL, NULL, NULL);

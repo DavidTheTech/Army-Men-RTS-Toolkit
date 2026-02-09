@@ -5,7 +5,7 @@ typedef void(__fastcall* VarSysCreateCmd_t)(char* IntName, int Unk1, int Unk2);
 typedef int(__fastcall* VarSysCreateString_t)(char* a1, const char* a2, int a3, DWORD* a4, int a5);
 typedef int(__fastcall* VarSysCreateFloat_t)(const char* path, float value, unsigned long flagsIn, DWORD* varPtr, void* context);
 typedef int(__fastcall* VarSysRegisterHandler_t)(const char* path, DWORD* func, U32 flagsIn);
-typedef void(__cdecl* VarSysRegisterHandlerFn)(const char* path, VarSysCallBack func, U32 flags);
+typedef void(__fastcall* VarSysRegisterHandlerFn)(const char* path, VarSysCallBack func, U32 flags);
 
 static VarSysCreateInteger_t VarSysCreateInteger = (VarSysCreateInteger_t)(Memory::ScanAddress(0x4E4430));
 static VarSysCreateCmd_t VarSysCreateCmd = (VarSysCreateCmd_t)(Memory::ScanAddress(0x4E4520));

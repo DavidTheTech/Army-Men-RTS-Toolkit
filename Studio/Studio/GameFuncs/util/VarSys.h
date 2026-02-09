@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include "..\..\Memory\Memory.h"
 
-typedef void (*VarSysCallBack)(U32);
+typedef void(__fastcall* VarSysCallBack)(U32);
 
 class VarSys
 {

@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
+    <ClCompile Include="Handlers\Handlers.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
     <ClCompile Include="GameFuncs\main\MainInit.cpp" />
@@ -187,6 +188,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
+    <ClInclude Include="Handlers\Handlers.h" />
+    <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />
     <ClInclude Include="Server\UserListModule.h" />
     <ClInclude Include="GameFuncs\coregame_objects\UnitObj.h" />
