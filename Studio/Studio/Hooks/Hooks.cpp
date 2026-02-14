@@ -3,6 +3,8 @@
 #include "../GameFuncs/system/Log.h"
 #include "../Patches/Patches.h"
 #include "../GameFuncs/main/Main.h"
+#include "../Handlers/Handlers.h"
+#include "../GameFuncs/graphics/Terrain.h"
 
 typedef void(__fastcall* InitBuckets_t)(unsigned int count, unsigned int size, float ratio, int flush, unsigned int tcount, unsigned int tsize, float tratio);
 static InitBuckets_t realInitBuckets = nullptr;
@@ -30,6 +32,52 @@ static WndProc_t Main_WndProc = reinterpret_cast<WndProc_t>(0x4B44F0);
 typedef HWND(__cdecl* CreateMainWindow_t)();
 static CreateMainWindow_t realCreateMainWindow = nullptr;
 static CreateMainWindow_t hookCreateMainWindow = reinterpret_cast<CreateMainWindow_t>(0x401CD0);
+
+//main\runcodes
+typedef void(__thiscall* RunCodesSet_U32_t)(DWORD* runCodes, U32 runcode);
+static RunCodesSet_U32_t realRunCodesSet_U32 = nullptr;
+static RunCodesSet_U32_t hookRunCodesSet_U32 = reinterpret_cast<RunCodesSet_U32_t>(0x4B6750);
+
+typedef void(__thiscall* RunCodesSet_S_t)(DWORD* runCodes, const char *runcode);
+static RunCodesSet_S_t realRunCodesSet_S = nullptr;
+static RunCodesSet_S_t hookRunCodesSet_S = reinterpret_cast<RunCodesSet_S_t>(0x4B6700);
+//END
+
+//graphics\terrain
+typedef void(__fastcall* TerrainCmdHandler_t)(U32 pathCrc);
+static TerrainCmdHandler_t realTerrainCmdHandler = nullptr;
+static TerrainCmdHandler_t hookTerrainCmdHandler = reinterpret_cast<TerrainCmdHandler_t>(0x434B40);
+//END
+
+static void __fastcall detourTerrainCmdHandler(U32 pathCrc)
+{
+    printf("%02X\n", pathCrc);
+    switch (pathCrc)
+    {
+        case 0xB56030F2:
+        {
+            Terrain::RenderTerrainMap("NewMap.tga", 1024, 0x1, 0x1);
+            //break;
+        }
+        default:
+            break;
+    }
+    return realTerrainCmdHandler(pathCrc);
+}
+
+static void detourRunCodesSet_U32(DWORD* runCodes, U32 runcode)
+{
+    Handlers handler;
+    handler.LoadHandlers();
+    return realRunCodesSet_U32(runCodes, runcode);
+}
+
+static void detourRunCodesSet_S(DWORD* runCodes, const char* runcode)
+{
+    Handlers handler;
+    handler.LoadHandlers();
+    return realRunCodesSet_S(runCodes, runcode);
+}
 
 static HWND __cdecl detourCreateMainWindow()
 {
@@ -136,6 +184,9 @@ bool Hooks::Setup()
     if (MH_CreateHook(reinterpret_cast<void*>(hookInitBuckets), &detourInitBuckets, reinterpret_cast<void**>(&realInitBuckets)) != MH_OK) return 1;
     if (MH_CreateHook(reinterpret_cast<void*>(hookHeapInit), &detourHeapInit, reinterpret_cast<void**>(&realHeapInit)) != MH_OK) return 1;
     if (MH_CreateHook(reinterpret_cast<void*>(hookVidToggleWindowedMode), &detourToggleWindowedMode, reinterpret_cast<void**>(&realVidToggleWindowedMode)) != MH_OK) return 1;
+    //if (MH_CreateHook(reinterpret_cast<void*>(hookRunCodesSet_U32), &detourRunCodesSet_U32, reinterpret_cast<void**>(&realRunCodesSet_U32)) != MH_OK) return 1;
+    //if (MH_CreateHook(reinterpret_cast<void*>(hookRunCodesSet_S), &detourRunCodesSet_S, reinterpret_cast<void**>(&realRunCodesSet_S)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookTerrainCmdHandler), &detourTerrainCmdHandler, reinterpret_cast<void**>(&realTerrainCmdHandler)) != MH_OK) return 1;
 
     if (MH_EnableHook(reinterpret_cast<void*>(hookCreateMainWindow)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookMainCreateGameWindow)) != MH_OK) return 1;
@@ -143,6 +194,10 @@ bool Hooks::Setup()
     if (MH_EnableHook(reinterpret_cast<void*>(hookInitBuckets)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookHeapInit)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookVidToggleWindowedMode)) != MH_OK) return 1;
+    //if (MH_EnableHook(reinterpret_cast<void*>(hookRunCodesSet_U32)) != MH_OK) return 1;
+    //if (MH_EnableHook(reinterpret_cast<void*>(hookRunCodesSet_S)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookTerrainCmdHandler)) != MH_OK) return 1;
+
 
     /*
     if (MH_CreateHook(reinterpret_cast<void**>(hookVidRenderBegin), &detourVidRenderBegin, reinterpret_cast<void**>(&realVidRenderBegin)) != MH_OK) return 1;

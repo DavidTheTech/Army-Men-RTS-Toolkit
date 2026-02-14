@@ -1,6 +1,7 @@
 #pragma once
 #include <LuaJIT/Src/lua.hpp>
 #include <string>
+#include <Windows.h>
 
 class LuaEngine
 {
@@ -13,16 +14,28 @@ public:
     bool ExecuteString(const std::string& code);
 
     void SetVariable(const std::string& name, int value);
+    bool CheckAndReload();
 
 private:
     lua_State* L;
+    std::string m_scriptPath;
+    FILETIME m_lastModTime;
 
 private:
     void RegisterFunctions();
 
-    //Log
+    //Log::Client
     static int Lua_LogClientWrite(lua_State* L);
 
     //VarSys
     static int Lua_VarSysCreateCmd(lua_State* L);
+
+    //Console
+    static int Lua_ConsoleProcessCmd(lua_State* L);
+    static int Lua_ConsoleMessage(lua_State* L);
+    static int Lua_ConsoleSetType(lua_State* L);
+
+    //In house funcs
+    static int Lua_Sleep(lua_State* L);
+    static int Lua_TmpFn(lua_State* L);
 };

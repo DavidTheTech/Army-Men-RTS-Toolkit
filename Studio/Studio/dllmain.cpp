@@ -26,6 +26,7 @@
 #include "GameFuncs\multiplayer\MultiPlayer_Host.h"
 #include "GameFuncs\system\Debug.h"
 #include "GameFuncs\interface\IFace_Util.h"
+#include "MapObjManager.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
@@ -33,6 +34,7 @@ HANDLE LuaEngineHandle = NULL;
 HANDLE MultiplayerServerHandle = NULL;
 HANDLE CursorLockHandle = NULL;
 HANDLE HandlersHandle = NULL;
+HANDLE TestingHandle = NULL;
 
 void SetupLuaEngine()
 {
@@ -43,6 +45,12 @@ void SetupLuaEngine()
 
     lua.SetVariable("testvar", 42);
     lua.LoadScript("main.lua");
+
+    while (true)
+    {
+        lua.CheckAndReload();
+        Sleep(100);
+    }
 }
 
 DWORD WINAPI MultiplayerStartup(LPVOID lpParam)
@@ -117,12 +125,57 @@ void SetupEverything()
     VarSys::CreateCmd("iface.fadeup");
     VarSys::CreateCmd("iface.testmodechange");
     VarSys::CreateCmd("iface.testmsgbox");
+
+    //VarSys::CreateCmd("terrain.render.render");
 }
 
 void HandlersFn()
 {
     Handlers handlers;
     handlers.LoadHandlers();
+}
+
+void Testing()
+{
+    Sleep(10000);
+    Internals::WaitForTrue(GameGod::IsInitialized());
+
+    MapObjManager manager;
+
+    while (true)
+    {
+        manager.Update();
+
+        for (auto& obj : manager.GetObjects())
+        {
+            printf("========\n");
+
+            printf("ID: %d\n", obj.GetID());
+            printf("Name: %s\n", obj.GetName());
+            printf("Position: X: %.3f, Y: %.3f, Z: %.3f\n", obj.GetX(), obj.GetY(), obj.GetZ());
+            printf("HP: %d/%d\n", obj.GetHitpoints(), obj.GetTotalHitpoints());
+
+            obj.SetX(obj.GetX() + 1.0f);
+
+            obj.SetHitpoints(1);
+
+            /*auto resources = obj.GetResources();
+            for (auto& res : resources)
+            {
+                std::cout << "Resource: " << res.type
+                    << " Amount: " << res.amount << std::endl;
+            }*/
+            printf("========\n");
+        }
+
+        /*MapObject* myObj = manager.GetObjectByID(6458);
+        if (myObj)
+        {
+            printf("Found object: %s", myObj->GetName());
+            myObj->SetHitpoints(1000);
+        }*/
+        Sleep(2000);
+    }
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -151,6 +204,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
         Log::Client::Write("[STUDIO DLL]: Multiplayer Controls");
         MultiplayerServerHandle = CreateThread(NULL, 0, MultiplayerStartup, NULL, 0, NULL);
         SetThreadPriority(MultiplayerServerHandle, THREAD_PRIORITY_BELOW_NORMAL);
+
+        Log::Client::Write("[STUDIO DLL]: TESTING");
+        //TestingHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Testing, NULL, NULL, NULL);
     }
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
