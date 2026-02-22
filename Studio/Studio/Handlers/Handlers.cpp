@@ -7,9 +7,9 @@ void teststuff()
 
 }
 
-void __fastcall Handlers::CmdClientHandler(U32 value)
+void __fastcall Handlers::ClientDevCmdClientHandler(U32 value)
 {
-	printf("s\n");
+	//printf("s\n");
     printf("0x%08X\n", value);
     switch (value)
     {
@@ -66,14 +66,27 @@ void __fastcall Handlers::CmdClientHandler(U32 value)
     }
 }
 
+void __fastcall Handlers::CmdClientHandler(U32 value)
+{
+    switch (value)
+    {
+        case 0xC55EC962:
+        {
+
+            break;
+        }
+    }
+}
 //TODO, add a hook somewhere to call handlers again, after a "scene" change it deletes them
 void Handlers::LoadHandlers()
 {
     Internals::WaitForTrue(GameGod::IsInitialized());
 
-    VarSys::RegisterHandler("client.development", CmdClientHandler);
+    VarSys::RegisterHandler("client.development", ClientDevCmdClientHandler);
 
 	VarSys::CreateCmd("client.development.blastthosebastards");
 	VarSys::CreateCmd("client.development.swag"); //case 0x330F1664: // "client.development.swag"
-	printf("ss\n");
+
+    VarSys::RegisterHandler("god", CmdClientHandler);
+    VarSys::CreateCmd("god.kill");
 }

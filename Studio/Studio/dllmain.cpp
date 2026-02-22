@@ -1,32 +1,4 @@
-#include <windows.h>
-
-#include "Settings.h"
-#include "Hooks\Hooks.h"
-#include "Patches\Patches.h"
-#include "LuaEngine\LuaEngine.h"
-#include "Utils\CursorLocking.h"
-#include "Utils\GameConsole.h"
-#include "Utils\Internals.h"
-#include "Handlers\Handlers.h"
-#include "Server\Server.h"
-
-#include "GameFuncs\system\defines.h"
-#include "GameFuncs\game\GameGod.h"
-#include "GameFuncs\main\Runcodes.h"
-#include "GameFuncs\coregame_interface\Studio.h"
-#include "GameFuncs\system\Log.h"
-#include "GameFuncs\system\Utils.h"
-#include "GameFuncs\graphics\Vid.h"
-#include "GameFuncs\graphics\Terrain.h"
-#include "GameFuncs\multiplayer\MultiPlayer_Data.h"
-#include "GameFuncs\multiplayer\MultiPlayer_Host.h"
-#include "GameFuncs\system\Crc.h"
-#include "GameFuncs\styxnet\Styxnet_Client.h"
-#include "GameFuncs\util\Console.h"
-#include "GameFuncs\multiplayer\MultiPlayer_Host.h"
-#include "GameFuncs\system\Debug.h"
-#include "GameFuncs\interface\IFace_Util.h"
-#include "MapObjManager.h"
+#include "main.h"
 
 HANDLE SetupEverythingHandle = NULL;
 HANDLE MinHookHandle = NULL;
@@ -35,6 +7,15 @@ HANDLE MultiplayerServerHandle = NULL;
 HANDLE CursorLockHandle = NULL;
 HANDLE HandlersHandle = NULL;
 HANDLE TestingHandle = NULL;
+
+const char* StudioDLL::credits = R"(Army Men RTS Studio Toolkit created by @DavidTheTech
+
+Development help from
+@TommyCD1
+@Minty
+
+The source code is available at https://github.com/DavidTheTech/Army-Men-RTS-Toolkit
+)";
 
 void SetupLuaEngine()
 {
@@ -88,15 +69,37 @@ void LockCursor(int cursorLockTimer)
     }
 }
 
+VarSys::VarStringFake TommyTime;
+VarSys::VarStringFake TommyTimeU;
+VarSys::VarStringFake GGMissionName;
+VarSys::VarStringFake GGMissionNameDate;
+
+void GameLoop()
+{
+    Internals::WaitForTrue(GameGod::IsInitialized());
+    Sleep(5000);
+    while (true)
+    {
+        Sleep(10);
+        //VarSys::SetString(&TommyTime, get_current_datetime());
+        VarSys::SetString((DWORD*)&TommyTime, Internals::GetDate());
+        VarSys::SetString((DWORD*)&TommyTimeU, Internals::GetDate(1));
+        
+        const char* MissionName = Missions::GetName();
+        VarSys::SetString((DWORD*)&GGMissionName, MissionName);
+
+        const char* MissionNameDate = Missions::GetNameDate();
+        VarSys::SetString((DWORD*)&GGMissionNameDate, MissionNameDate);
+    }
+}
+
 void SetupEverything()
 {
     Settings settings;
     settings.LoadJson();
 
     GameConsole gConsole;
-    gConsole.Start();
-
-    
+    gConsole.Start();    
 
     Internals::WaitForTrue(GameGod::IsInitialized());
 
@@ -126,7 +129,18 @@ void SetupEverything()
     VarSys::CreateCmd("iface.testmodechange");
     VarSys::CreateCmd("iface.testmsgbox");
 
+    //DWORD* varTest = (DWORD*)VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
+    VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
+    VarSys::CreateString("sys.dateu", "swag", 0, &TommyTimeU, 0);
+    VarSys::CreateString("gamegod.missions.name", "swag", 0, &GGMissionName, 0);
+    VarSys::CreateString("gamegod.missions.namewithdate", "swag", 0, &GGMissionNameDate, 0);
+
+
+    VarSys::CreateString("studio.credits", StudioDLL::credits, 0, nullptr, 0);
+
     //VarSys::CreateCmd("terrain.render.render");
+
+    GameLoop();
 }
 
 void HandlersFn()
@@ -137,8 +151,10 @@ void HandlersFn()
 
 void Testing()
 {
-    Sleep(10000);
-    Internals::WaitForTrue(GameGod::IsInitialized());
+    Sleep(1);
+    //Testing::Test();
+
+    /*
 
     MapObjManager manager;
 
@@ -159,12 +175,12 @@ void Testing()
 
             obj.SetHitpoints(1);
 
-            /*auto resources = obj.GetResources();
+            auto resources = obj.GetResources();
             for (auto& res : resources)
             {
                 std::cout << "Resource: " << res.type
                     << " Amount: " << res.amount << std::endl;
-            }*/
+            }
             printf("========\n");
         }
 
@@ -173,9 +189,9 @@ void Testing()
         {
             printf("Found object: %s", myObj->GetName());
             myObj->SetHitpoints(1000);
-        }*/
+        }
         Sleep(2000);
-    }
+    }*/
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -206,7 +222,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
         SetThreadPriority(MultiplayerServerHandle, THREAD_PRIORITY_BELOW_NORMAL);
 
         Log::Client::Write("[STUDIO DLL]: TESTING");
-        //TestingHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Testing, NULL, NULL, NULL);
+        TestingHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Testing, NULL, NULL, NULL);
     }
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:

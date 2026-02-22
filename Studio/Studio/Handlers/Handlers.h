@@ -8,6 +8,7 @@ class Handlers
 {
 private:
     static void __fastcall CmdClientHandler(U32 value);
+    static void __fastcall ClientDevCmdClientHandler(U32 value);
 
 public:
     static void LoadHandlers();

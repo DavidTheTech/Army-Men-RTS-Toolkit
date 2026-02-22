@@ -141,6 +141,10 @@ void LuaEngine::RegisterFunctions()
     RegisterMapObjManager(L, manager);
 }
 
+//Move funcs to own classes
+//and have a main class to load all of them
+//clean code is the key
+
 int LuaEngine::Lua_TmpFn(lua_State* L)
 {
     Terrain::RenderTerrainMap("NewMap.tga", 1024, 0x1, 0x1);

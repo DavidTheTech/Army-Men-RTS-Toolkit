@@ -23,3 +23,4 @@ Installer/
 #not for release yet
 Docs/
 ClassGen.py
+TypesGenerator/

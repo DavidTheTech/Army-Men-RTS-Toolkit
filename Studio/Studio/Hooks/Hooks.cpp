@@ -49,9 +49,32 @@ static TerrainCmdHandler_t realTerrainCmdHandler = nullptr;
 static TerrainCmdHandler_t hookTerrainCmdHandler = reinterpret_cast<TerrainCmdHandler_t>(0x434B40);
 //END
 
+//CRC
+typedef U32(__fastcall* CrcCalcStr_t)(const char* str, U32 crc);
+static CrcCalcStr_t realCrcCalcStr = nullptr;
+static CrcCalcStr_t hookCrcCalcStr = reinterpret_cast<CrcCalcStr_t>(0x4D9A30);
+//END
+
+static U32 __fastcall detourCrcCalcStr(const char* str, U32 crc)
+{
+    U32 result = realCrcCalcStr(str, crc);
+    if (result == 0x5C007B75)
+    {
+        U32 result2 = realCrcCalcStr("s", 0);
+        printf("%s : [OLD : 0x%08X] : [NEW 0x%08X]\n", str, result, result2);
+        result = 0x5C007B75;
+    }
+    else
+    {
+        result = realCrcCalcStr(str, crc);
+    }
+    //printf("%s : 0x%08X\n", str, crc2);
+    return result;
+}
+
 static void __fastcall detourTerrainCmdHandler(U32 pathCrc)
 {
-    printf("%02X\n", pathCrc);
+    //printf("%02X\n", pathCrc);
     switch (pathCrc)
     {
         case 0xB56030F2:
@@ -187,6 +210,7 @@ bool Hooks::Setup()
     //if (MH_CreateHook(reinterpret_cast<void*>(hookRunCodesSet_U32), &detourRunCodesSet_U32, reinterpret_cast<void**>(&realRunCodesSet_U32)) != MH_OK) return 1;
     //if (MH_CreateHook(reinterpret_cast<void*>(hookRunCodesSet_S), &detourRunCodesSet_S, reinterpret_cast<void**>(&realRunCodesSet_S)) != MH_OK) return 1;
     if (MH_CreateHook(reinterpret_cast<void*>(hookTerrainCmdHandler), &detourTerrainCmdHandler, reinterpret_cast<void**>(&realTerrainCmdHandler)) != MH_OK) return 1;
+    //if (MH_CreateHook(reinterpret_cast<void*>(hookCrcCalcStr), &detourCrcCalcStr, reinterpret_cast<void**>(&realCrcCalcStr)) != MH_OK) return 1;
 
     if (MH_EnableHook(reinterpret_cast<void*>(hookCreateMainWindow)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookMainCreateGameWindow)) != MH_OK) return 1;
@@ -197,6 +221,7 @@ bool Hooks::Setup()
     //if (MH_EnableHook(reinterpret_cast<void*>(hookRunCodesSet_U32)) != MH_OK) return 1;
     //if (MH_EnableHook(reinterpret_cast<void*>(hookRunCodesSet_S)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookTerrainCmdHandler)) != MH_OK) return 1;
+    //if (MH_EnableHook(reinterpret_cast<void*>(hookCrcCalcStr)) != MH_OK) return 1;
 
 
     /*

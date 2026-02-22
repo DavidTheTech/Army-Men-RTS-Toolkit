@@ -152,6 +152,8 @@
     <ClCompile Include="LuaEngine\LuaMapObjManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
+    <ClCompile Include="GameFuncs\game\Missions.cpp" />
+    <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
     <ClCompile Include="GameFuncs\main\MainInit.cpp" />
@@ -190,6 +192,7 @@
     <ClCompile Include="Patches\SingleInstancePatch.cpp" />
     <ClCompile Include="Server\UserListModule.cpp" />
     <ClCompile Include="GameFuncs\coregame_objects\UnitObj.cpp" />
+    <ClCompile Include="Utils\Internals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
@@ -199,6 +202,8 @@
     <ClInclude Include="LuaEngine\LuaMapObjManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
+    <ClInclude Include="GameFuncs\game\Missions.h" />
+    <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />
     <ClInclude Include="Server\UserListModule.h" />
@@ -239,6 +244,7 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="GameFuncs\styxnet\Styxnet_Client.h" />
     <ClInclude Include="Patches\SingleInstancePatch.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="settings.json" />

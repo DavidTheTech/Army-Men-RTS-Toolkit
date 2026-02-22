@@ -21,6 +21,6 @@ bool Terrain::Report(bool all)
 
 U32 Terrain::RenderTerrainMap(const char* filename, U32 size, DWORD doColor, DWORD doOverlay)
 {
-    printf("%s %d %d %d\n", filename, size, doColor, doOverlay);
+    //printf("%s %d %d %d\n", filename, size, doColor, doOverlay);
     return RenderTerrainMap_Fn(filename, size, doColor, doOverlay);
 }
