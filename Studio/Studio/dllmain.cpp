@@ -69,10 +69,12 @@ void LockCursor(int cursorLockTimer)
     }
 }
 
+//Move these & gameloop to its own class
 VarSys::VarStringFake TommyTime;
 VarSys::VarStringFake TommyTimeU;
 VarSys::VarStringFake GGMissionName;
 VarSys::VarStringFake GGMissionNameDate;
+VarSys::VarStringFake GGGroup;
 
 void GameLoop()
 {
@@ -84,6 +86,25 @@ void GameLoop()
         //VarSys::SetString(&TommyTime, get_current_datetime());
         VarSys::SetString((DWORD*)&TommyTime, Internals::GetDate());
         VarSys::SetString((DWORD*)&TommyTimeU, Internals::GetDate(1));
+
+        DWORD selected = Missions::GetSelected();
+
+        if (selected)
+        {
+            const char* mapName = (const char*)(selected + 0x18);
+            DWORD ptr = *(DWORD*)(selected + 0x14);
+            const char* missionPath = nullptr;
+            if (ptr)
+            {
+                missionPath = (const char*)(ptr + 0xC);
+                VarSys::SetString((DWORD*)&GGGroup, missionPath);
+            }
+
+            //printf("Selected : [%s] [%s]\n", mapName ? mapName : "null", missionPath ? missionPath : "null");
+        }
+        //printf("addy mgs 0x%08x, %s\n", (addy + 0x18), reinterpret_cast<const char*>(addy + 0x18));
+        //printf("addy mgs %s # %s\n", (const char*)((DWORD)selected + 0x18), (const char*)(*(DWORD*)((DWORD)selected + 0x14) + 0xC));
+        //VarSys::SetString((DWORD*)&GGGroup, GameGod::IsInitialized);
         
         const char* MissionName = Missions::GetName();
         VarSys::SetString((DWORD*)&GGMissionName, MissionName);
@@ -130,10 +151,14 @@ void SetupEverything()
     VarSys::CreateCmd("iface.testmsgbox");
 
     //DWORD* varTest = (DWORD*)VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
+
+    //Custom vars
     VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
     VarSys::CreateString("sys.dateu", "swag", 0, &TommyTimeU, 0);
     VarSys::CreateString("gamegod.missions.name", "swag", 0, &GGMissionName, 0);
     VarSys::CreateString("gamegod.missions.namewithdate", "swag", 0, &GGMissionNameDate, 0);
+
+    VarSys::CreateString("gamegod.missions.group", "N/A", 0, &GGGroup, 0);
 
 
     VarSys::CreateString("studio.credits", StudioDLL::credits, 0, nullptr, 0);
@@ -151,8 +176,7 @@ void HandlersFn()
 
 void Testing()
 {
-    Sleep(1);
-    //Testing::Test();
+    Testing::Test();
 
     /*
 

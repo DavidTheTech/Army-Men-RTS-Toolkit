@@ -7,4 +7,10 @@ class Client
 public:
     static DWORD GetMouse();
     static DWORD GetPlayer();
+
+    class Cmd
+    {
+    public:
+        static void LogTasks(DWORD* obj);
+    };
 };

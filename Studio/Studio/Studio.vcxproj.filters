@@ -159,6 +159,12 @@
     <ClCompile Include="GameFuncs\game\Missions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine\GameFuncs\util\LuaVarSys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEngine\GameFuncs\util\LuaConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -309,6 +315,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameFuncs\game\Missions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\GameFuncs\util\LuaVarSys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\GameFuncs\util\LuaConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

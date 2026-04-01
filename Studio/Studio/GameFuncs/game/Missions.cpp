@@ -27,3 +27,8 @@ const char* Missions::GetNameDate()
 
     return result.c_str();
 }
+
+DWORD Missions::GetSelected()
+{
+    return *(DWORD*)Memory::ScanAddress(0x6BB0D4);
+}

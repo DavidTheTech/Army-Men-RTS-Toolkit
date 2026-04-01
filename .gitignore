@@ -24,3 +24,5 @@ Installer/
 Docs/
 ClassGen.py
 TypesGenerator/
+AMRTS_PATCHER/
+CRC_FILE_HASHER/

@@ -160,10 +160,10 @@ static bool __cdecl detourToggleWindowedMode()
 
 static void __fastcall detourInitBuckets(unsigned long count, unsigned long size, float ratio, int flush, unsigned long tcount, unsigned long tsize, float tratio)
 {
-    unsigned long newCount = 444 * 8;
-    unsigned long newSize = 16000 * 8;
-    unsigned long newtCount = 200 * 8;
-    unsigned long newtSize = 16000 * 8;
+    unsigned long newCount = 444 * 4;
+    unsigned long newSize = 16000 * 4;
+    unsigned long newtCount = 200 * 4;
+    unsigned long newtSize = 16000 * 4;
 
     realInitBuckets(newCount, newSize, 0.95f, 1, newtCount, newtSize, 0.95f);
 }
@@ -179,14 +179,14 @@ static void __fastcall detourHeapInit(unsigned long maxVtx, unsigned long maxIdx
 
 static void __fastcall detourCoreGameInit()
 {
-    VarSys::CreateCmd("coregame.createobj", 0, 0);
-    VarSys::CreateCmd("coregame.listobjs", 0, 0);
-    VarSys::CreateCmd("coregame.listoffmap", 0, 0);
-    VarSys::CreateCmd("coregame.listbyclassid", 0, 0);
-    VarSys::CreateCmd("coregame.listclusters", 0, 0);
-    VarSys::CreateCmd("coregame.listunits", 0, 0);
-    VarSys::CreateCmd("coregame.removeobj", 0, 0);
-    VarSys::CreateCmd("coregame.addobj", 0, 0);
+    VarSys::CreateCmd("coregame.createobj");
+    VarSys::CreateCmd("coregame.listobjs");
+    VarSys::CreateCmd("coregame.listoffmap");
+    VarSys::CreateCmd("coregame.listbyclassid");
+    VarSys::CreateCmd("coregame.listclusters");
+    VarSys::CreateCmd("coregame.listunits");
+    VarSys::CreateCmd("coregame.removeobj");
+    VarSys::CreateCmd("coregame.addobj");
 
     realCoreGameInit();
 }

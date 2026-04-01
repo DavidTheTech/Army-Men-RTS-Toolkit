@@ -1,6 +1,8 @@
 #include "Testing.h"
 #include "../Utils/Internals.h"
 #include "../GameFuncs/game/GameGod.h"
+#include "../MapObjManager.h"
+#include "../GameFuncs/coregame_interface/Client.h"
 
 typedef void* (__cdecl* AllocMemOPNew_t)(U32 size);
 static AllocMemOPNew_t AllocMemOPNewFn = (AllocMemOPNew_t)(Memory::ScanAddress(0x005BBD6E));
@@ -28,9 +30,11 @@ static inline void* CallSub5CCCD0(void* dst, void* src)
 
 void Testing::Test()
 {
+    Sleep(10000);
+
     //*(char*)(0x68B818) = 0x73;
     
-    memcpy((void*)0x70616D, "map", 3);
+    //memcpy((void*)0x70616D, "map", 3);
     //Internals::WaitForTrue(GameGod::IsInitialized());
 
     //Some debug func stuff??

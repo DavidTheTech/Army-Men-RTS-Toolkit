@@ -82,9 +82,19 @@ void Handlers::LoadHandlers()
 {
     Internals::WaitForTrue(GameGod::IsInitialized());
 
+    //Client development
     VarSys::RegisterHandler("client.development", ClientDevCmdClientHandler);
+    VarSys::CreateCmd("client.development.setteam");
+    VarSys::CreateCmd("client.development.blastthosebastards");
+    VarSys::CreateCmd("client.development.money");
+    VarSys::CreateCmd("client.development.tasks");
 
-	VarSys::CreateCmd("client.development.blastthosebastards");
+    VarSys::CreateCmd("client.development.directmodeon");
+    VarSys::CreateCmd("client.development.directmodeoff");
+    VarSys::CreateCmd("client.development.directturn");
+    VarSys::CreateCmd("client.development.debug");
+    
+    //custom
 	VarSys::CreateCmd("client.development.swag"); //case 0x330F1664: // "client.development.swag"
 
     VarSys::RegisterHandler("god", CmdClientHandler);

@@ -3,11 +3,15 @@
 #include <string>
 #include <Windows.h>
 
+#include "GameFuncs\util\LuaVarSys.h"
+#include "GameFuncs\util\LuaConsole.h"
+
 class LuaEngine
 {
 public:
     LuaEngine();
     ~LuaEngine();
+    lua_State* L;
 
     bool Initialize();
     bool LoadScript(const std::string& path);
@@ -17,7 +21,7 @@ public:
     bool CheckAndReload();
 
 private:
-    lua_State* L;
+    
     std::string m_scriptPath;
     FILETIME m_lastModTime;
 
@@ -26,14 +30,6 @@ private:
 
     //Log::Client
     static int Lua_LogClientWrite(lua_State* L);
-
-    //VarSys
-    static int Lua_VarSysCreateCmd(lua_State* L);
-
-    //Console
-    static int Lua_ConsoleProcessCmd(lua_State* L);
-    static int Lua_ConsoleMessage(lua_State* L);
-    static int Lua_ConsoleSetType(lua_State* L);
 
     //In house funcs
     static int Lua_Sleep(lua_State* L);

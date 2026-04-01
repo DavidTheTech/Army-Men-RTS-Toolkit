@@ -148,8 +148,10 @@
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
     <ClCompile Include="Handlers\Handlers.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\util\LuaConsole.cpp" />
     <ClCompile Include="LuaEngine\LuaMapObject.cpp" />
     <ClCompile Include="LuaEngine\LuaMapObjManager.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\util\LuaVarSys.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
     <ClCompile Include="GameFuncs\game\Missions.cpp" />
@@ -198,8 +200,10 @@
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
     <ClInclude Include="Handlers\Handlers.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\util\LuaConsole.h" />
     <ClInclude Include="LuaEngine\LuaMapObject.h" />
     <ClInclude Include="LuaEngine\LuaMapObjManager.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\util\LuaVarSys.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
     <ClInclude Include="GameFuncs\game\Missions.h" />
