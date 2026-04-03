@@ -1,6 +1,8 @@
 #include "Settings.h"
 #include "GameFuncs/system/Log.h"
 
+Settings g_settings;
+
 void Settings::LoadJson(const std::string& filename)
 {
     std::ifstream jsonFile(filename);
@@ -24,24 +26,64 @@ void Settings::LoadJson(const std::string& filename)
 
     jsonFile.close();
 
-    if (jsonData.contains("DoWeLockCursor"))
-    {
-        DoWeLockCursor = jsonData["DoWeLockCursor"].get<bool>();
-    }
+    bool updated = false;
 
-    if (jsonData.contains("ShowConsole"))
+    if (!jsonData.contains("DoWeLockCursor"))
     {
-        ShowConsole = jsonData["ShowConsole"].get<bool>();
+        jsonData["DoWeLockCursor"] = true;
+        updated = true;
     }
+    DoWeLockCursor = jsonData["DoWeLockCursor"].get<bool>();
 
-    if (jsonData.contains("CursorLockTimer"))
+    if (!jsonData.contains("ShowConsole"))
     {
-        CursorLockTimer = jsonData["CursorLockTimer"].get<int>();
+        jsonData["ShowConsole"] = true;
+        updated = true;
     }
+    ShowConsole = jsonData["ShowConsole"].get<bool>();
 
-    if (jsonData.contains("AutoLaunchStudio"))
+    if (!jsonData.contains("CursorLockTimer"))
     {
-        AutoLaunch = jsonData["AutoLaunchStudio"].get<bool>();
+        jsonData["CursorLockTimer"] = 5;
+        updated = true;
+    }
+    CursorLockTimer = jsonData["CursorLockTimer"].get<int>();
+
+    if (!jsonData.contains("AutoLaunchStudio"))
+    {
+        jsonData["AutoLaunchStudio"] = false;
+        updated = true;
+    }
+    AutoLaunch = jsonData["AutoLaunchStudio"].get<bool>();
+
+    if (!jsonData.contains("InitBucketsMultiplier"))
+    {
+        jsonData["InitBucketsMultiplier"] = 4;
+        updated = true;
+    }
+    InitBucketMulti = jsonData["InitBucketsMultiplier"].get<int>();
+
+    if (!jsonData.contains("InitBucketsVertices"))
+    {
+        jsonData["InitBucketsVertices"] = 1450;
+        updated = true;
+    }
+    InitBucketVert = jsonData["InitBucketsVertices"].get<int>();
+
+    if (!jsonData.contains("InitBucketsIndices"))
+    {
+        jsonData["InitBucketsIndices"] = 4350;
+        updated = true;
+    }
+    InitBucketIndi = jsonData["InitBucketsIndices"].get<int>();
+
+    if (updated)
+    {
+        std::ofstream outFile(filename);
+        if (outFile.is_open())
+        {
+            outFile << jsonData.dump(4);
+        }
     }
 }
 
@@ -54,10 +96,13 @@ void Settings::CreateDefaultJson(const std::string& filename)
     }
 
     json defaultJson = {
-        {"DoWeLockCursor", false},
+        {"DoWeLockCursor", true},
         {"ShowConsole", true},
         {"CursorLockTimer", 5},
-        {"AutoLaunchStudio", false}
+        {"AutoLaunchStudio", false},
+        {"InitBucketsMultiplier", 4},
+        {"InitBucketsVertices", 1450},
+        {"InitBucketsIndices", 4350}
     };
 
     std::ofstream outFile(filename);

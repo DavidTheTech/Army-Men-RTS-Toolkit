@@ -109,6 +109,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libMinHook.x86.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetPath)" "D:\Programming\ARMY MEN RTS\GAME\studio.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -145,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
     <ClCompile Include="Handlers\Handlers.cpp" />
@@ -197,6 +201,7 @@
     <ClCompile Include="Utils\Internals.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Game.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
     <ClInclude Include="Handlers\Handlers.h" />

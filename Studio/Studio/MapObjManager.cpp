@@ -21,7 +21,45 @@ MapObject* MapObjManager::GetObjectByID(DWORD id)
     for (auto& obj : objects)
     {
         if (obj.GetID() == id)
+        {
             return &obj;
+        }
     }
     return nullptr;
+}
+
+MapObject* MapObjManager::GetObjectByName(const char* name)
+{
+    for (auto& obj : objects)
+    {
+        if (strcmp(obj.GetName(), name) == 0)
+        {
+            return &obj;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<MapObject*> MapObjManager::GetObjectsByName(const char* name)
+{
+    std::vector<MapObject*> matches;
+    for (auto& obj : objects)
+    {
+        if (std::strcmp(obj.GetName(), name) == 0)
+            matches.push_back(&obj);
+    }
+    return matches;
+}
+
+std::vector<MapObject*> MapObjManager::GetObjectsByTeam(const char* team)
+{
+    std::vector<MapObject*> matches;
+    for (auto& obj : objects)
+    {
+        if (strcmp(obj.GetTeam(), team) == 0)
+        {
+            matches.push_back(&obj);
+        }
+    }
+    return matches;
 }

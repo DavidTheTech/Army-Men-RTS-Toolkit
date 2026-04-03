@@ -30,7 +30,8 @@
 #include "GameFuncs\interface\IFace_Util.h"
 #include "GameFuncs\game\Missions.h"
 #include "MapObjManager.h"
-#include "Testing/Testing.h"
+#include "Testing\Testing.h"
+#include "Game\Game.h"
 
 class StudioDLL
 {

@@ -69,55 +69,9 @@ void LockCursor(int cursorLockTimer)
     }
 }
 
-//Move these & gameloop to its own class
-VarSys::VarStringFake TommyTime;
-VarSys::VarStringFake TommyTimeU;
-VarSys::VarStringFake GGMissionName;
-VarSys::VarStringFake GGMissionNameDate;
-VarSys::VarStringFake GGGroup;
-
-void GameLoop()
-{
-    Internals::WaitForTrue(GameGod::IsInitialized());
-    Sleep(5000);
-    while (true)
-    {
-        Sleep(10);
-        //VarSys::SetString(&TommyTime, get_current_datetime());
-        VarSys::SetString((DWORD*)&TommyTime, Internals::GetDate());
-        VarSys::SetString((DWORD*)&TommyTimeU, Internals::GetDate(1));
-
-        DWORD selected = Missions::GetSelected();
-
-        if (selected)
-        {
-            const char* mapName = (const char*)(selected + 0x18);
-            DWORD ptr = *(DWORD*)(selected + 0x14);
-            const char* missionPath = nullptr;
-            if (ptr)
-            {
-                missionPath = (const char*)(ptr + 0xC);
-                VarSys::SetString((DWORD*)&GGGroup, missionPath);
-            }
-
-            //printf("Selected : [%s] [%s]\n", mapName ? mapName : "null", missionPath ? missionPath : "null");
-        }
-        //printf("addy mgs 0x%08x, %s\n", (addy + 0x18), reinterpret_cast<const char*>(addy + 0x18));
-        //printf("addy mgs %s # %s\n", (const char*)((DWORD)selected + 0x18), (const char*)(*(DWORD*)((DWORD)selected + 0x14) + 0xC));
-        //VarSys::SetString((DWORD*)&GGGroup, GameGod::IsInitialized);
-        
-        const char* MissionName = Missions::GetName();
-        VarSys::SetString((DWORD*)&GGMissionName, MissionName);
-
-        const char* MissionNameDate = Missions::GetNameDate();
-        VarSys::SetString((DWORD*)&GGMissionNameDate, MissionNameDate);
-    }
-}
-
 void SetupEverything()
 {
-    Settings settings;
-    settings.LoadJson();
+    g_settings.LoadJson();
 
     GameConsole gConsole;
     gConsole.Start();    
@@ -128,20 +82,20 @@ void SetupEverything()
     DWORD runCodes = 0x7288E0;
     RunCodes::Register((DWORD*)runCodes, "Studio", (int)Studio::Process, (int)Studio::Init, (int)Studio::Done, (int)Studio::PostInit, 0);
 
-    if (settings.AutoLaunch)
+    if (g_settings.AutoLaunch)
     {
         Sleep(2000);
         RunCodes::Set((DWORD*)runCodes, "Studio");
     }
 
-    if (settings.DoWeLockCursor)
+    if (g_settings.DoWeLockCursor)
     {
-        CursorLockHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LockCursor, (LPVOID)(size_t)settings.CursorLockTimer, NULL, NULL);
+        CursorLockHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LockCursor, (LPVOID)(size_t)g_settings.CursorLockTimer, NULL, NULL);
     }
 
     //Add missing cmds
-    VarSys::CreateCmd("team.list", 0, 0);
-    VarSys::CreateCmd("terrain.toggle.shroud", 0, 0);
+    VarSys::CreateCmd("team.list");
+    VarSys::CreateCmd("terrain.toggle.shroud");
 
     //these exist but their handler doesnt contain their code
     //TODO: hook 0x490030 check if crc matches arg n call our own handler if not continue
@@ -153,19 +107,17 @@ void SetupEverything()
     //DWORD* varTest = (DWORD*)VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
 
     //Custom vars
-    VarSys::CreateString("sys.date", "swag", 0, &TommyTime, 0);
-    VarSys::CreateString("sys.dateu", "swag", 0, &TommyTimeU, 0);
-    VarSys::CreateString("gamegod.missions.name", "swag", 0, &GGMissionName, 0);
-    VarSys::CreateString("gamegod.missions.namewithdate", "swag", 0, &GGMissionNameDate, 0);
-
-    VarSys::CreateString("gamegod.missions.group", "N/A", 0, &GGGroup, 0);
-
-
-    VarSys::CreateString("studio.credits", StudioDLL::credits, 0, nullptr, 0);
+    VarSys::CreateString("studio.credits", StudioDLL::credits, VarSys::NOEDIT, nullptr, 0);
+    //VarSys::CreateInteger("studio.numtest", 6458, 0, &studioNum, 0);
+    
+    //Connected regions are completely removed from amrts :(
+    //VarSys::CreateCmd("coregame.cre.info");
+    //VarSys::CreateInteger("coregame.cre.info.region", 0, 0, &varRegion, 0);
 
     //VarSys::CreateCmd("terrain.render.render");
 
-    GameLoop();
+    //setup Game stuff with gameloop
+    g_game.Setup();
 }
 
 void HandlersFn()

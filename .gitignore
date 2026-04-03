@@ -21,8 +21,10 @@ Studio/Studio/Server/ImGui
 Installer/
 
 #not for release yet
-Docs/
+Docs/*
 ClassGen.py
 TypesGenerator/
 AMRTS_PATCHER/
 CRC_FILE_HASHER/
+
+!Docs/LuaInfo.md

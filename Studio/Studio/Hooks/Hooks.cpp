@@ -1,4 +1,5 @@
 #include "Hooks.h"
+#include "../Settings.h"
 #include "../GameFuncs/graphics/Vid.h"
 #include "../GameFuncs/system/Log.h"
 #include "../Patches/Patches.h"
@@ -160,19 +161,21 @@ static bool __cdecl detourToggleWindowedMode()
 
 static void __fastcall detourInitBuckets(unsigned long count, unsigned long size, float ratio, int flush, unsigned long tcount, unsigned long tsize, float tratio)
 {
-    unsigned long newCount = 444 * 4;
-    unsigned long newSize = 16000 * 4;
-    unsigned long newtCount = 200 * 4;
-    unsigned long newtSize = 16000 * 4;
+    unsigned long DEF_BUCKET_COUNT = 444 * g_settings.InitBucketMulti;
+    unsigned long DEF_BUCKET_SIZE = 16000 * g_settings.InitBucketMulti;
+    unsigned long DEF_TRAN_BUCKET_COUNT = 200 * g_settings.InitBucketMulti;
+    unsigned long DEF_TRAN_BUCKET_SIZE = 16000 * g_settings.InitBucketMulti;
+    float DEF_BUCKET_RATIO = 0.95f;
+    bool bflush = true;
 
-    realInitBuckets(newCount, newSize, 0.95f, 1, newtCount, newtSize, 0.95f);
+    realInitBuckets(DEF_BUCKET_COUNT, DEF_BUCKET_SIZE, DEF_BUCKET_RATIO, bflush, DEF_TRAN_BUCKET_COUNT, DEF_TRAN_BUCKET_SIZE, DEF_BUCKET_RATIO);
 }
 
 static void __fastcall detourHeapInit(unsigned long maxVtx, unsigned long maxIdx)
 {
     //printf("maxVtx : %lu\tmaxIdx : %lu\n", maxVtx, maxIdx);
-    maxVtx = 1450 * 8;
-    maxIdx = 4350 * 8;
+    maxVtx = g_settings.InitBucketVert * g_settings.InitBucketMulti;
+    maxIdx = g_settings.InitBucketIndi * g_settings.InitBucketMulti;
 
     realHeapInit(maxVtx, maxIdx);
 }

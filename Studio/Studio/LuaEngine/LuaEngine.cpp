@@ -39,19 +39,26 @@ bool LuaEngine::Initialize()
 
 bool LuaEngine::LoadScript(const std::string& path)
 {
-    if (luaL_dofile(L, path.c_str()) != LUA_OK)
-    {
-        Log::Client::Write("[LUA ENGINE]: LoadScript Error %s ", lua_tostring(L, -1));
-        lua_pop(L, 1);
-        return false;
-    }
-
     m_scriptPath = path;
+
     HANDLE hFile = CreateFileA(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
     if (hFile != INVALID_HANDLE_VALUE)
     {
         GetFileTime(hFile, NULL, NULL, &m_lastModTime);
         CloseHandle(hFile);
+    }
+    else
+    {
+        memset(&m_lastModTime, 0, sizeof(FILETIME));
+    }
+
+    if (luaL_dofile(L, path.c_str()) != LUA_OK)
+    {
+        Log::Client::Write("[LUA ENGINE]: LoadScript Error %s", lua_tostring(L, -1));
+        lua_pop(L, 1);
+
+        lua_settop(L, 0);
+        return false;
     }
 
     return true;

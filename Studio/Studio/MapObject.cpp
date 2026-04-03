@@ -11,6 +11,14 @@ const char* MapObject::GetName() const
     return reinterpret_cast<const char*>(inner + 144);
 }
 
+const char* MapObject::GetTeam() const
+{
+    if (!objectAddress) return "Invalid";
+    DWORD inner = *reinterpret_cast<DWORD*>(objectAddress + 380);
+    if (!inner) return "NoTeam";
+    return reinterpret_cast<const char*>(inner + 8);
+}
+
 float MapObject::GetX() const
 {
     DWORD pos = *reinterpret_cast<DWORD*>(objectAddress + 120);
@@ -76,4 +84,24 @@ DWORD MapObject::GetID() const
 {
     if (!objectAddress) return 0;
     return *reinterpret_cast<DWORD*>(objectAddress + 60);
+}
+
+int MapObject::GetResourceCount() const
+{
+    int count = 0;
+    if (IsResource())
+    {
+        count = *reinterpret_cast<int*>(objectAddress + 0x178);
+    }
+
+    return count;
+}
+
+bool MapObject::IsResource() const
+{
+    DWORD inner = *reinterpret_cast<DWORD*>(objectAddress + 4);
+    DWORD inner2 = inner + 0x51C;
+    bool isRes = IsResource_Func(reinterpret_cast<U32*>(inner2));
+    
+    return isRes;
 }

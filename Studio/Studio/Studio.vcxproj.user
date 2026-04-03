@@ -3,4 +3,9 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommand>"D:\Programming\ARMY MEN RTS\GAME\amrts.exe"</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>D:\Programming\ARMY MEN RTS\GAME</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
