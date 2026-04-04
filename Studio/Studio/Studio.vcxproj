@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -148,17 +148,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\coregame_interface\Client_events.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
     <ClCompile Include="Handlers\Handlers.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\coregame_interface\LuaClientEvents.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\util\LuaConsole.cpp" />
     <ClCompile Include="LuaEngine\LuaMapObject.cpp" />
     <ClCompile Include="LuaEngine\LuaMapObjManager.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\util\LuaVarSys.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
     <ClCompile Include="GameFuncs\game\Missions.cpp" />
+    <ClCompile Include="GameFuncs\coregame_orders\Orders_game_move.cpp" />
     <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
@@ -201,17 +205,21 @@
     <ClCompile Include="Utils\Internals.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\coregame_interface\Client_events.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
     <ClInclude Include="Handlers\Handlers.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\coregame_interface\LuaClientEvents.h" />
     <ClInclude Include="LuaEngine\GameFuncs\util\LuaConsole.h" />
     <ClInclude Include="LuaEngine\LuaMapObject.h" />
     <ClInclude Include="LuaEngine\LuaMapObjManager.h" />
     <ClInclude Include="LuaEngine\GameFuncs\util\LuaVarSys.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
     <ClInclude Include="GameFuncs\game\Missions.h" />
+    <ClInclude Include="GameFuncs\coregame_orders\Orders_game_move.h" />
     <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />

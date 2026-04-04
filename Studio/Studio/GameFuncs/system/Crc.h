@@ -6,5 +6,5 @@
 class Crc
 {
 public:
-    static U32 CalcStr(const char* str, U32 crc = 0xFFFFFFFF);
+    static U32 CalcStr(const char* str, U32 crc = 0x00000000); //0xFFFFFFFF
 };

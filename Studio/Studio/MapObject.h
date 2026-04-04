@@ -8,7 +8,7 @@ class MapObject
 {
 public:
     typedef int(__fastcall* sub_543A80)(U32* a1);
-    sub_543A80 Func_543A80 = (sub_543A80)(Memory::ScanAddress(0x543A80));
+    sub_543A80 IsResource_Func = (sub_543A80)(Memory::ScanAddress(0x543A80));
 
     MapObject(DWORD baseAddress);
 

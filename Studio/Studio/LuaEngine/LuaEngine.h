@@ -5,6 +5,8 @@
 
 #include "GameFuncs\util\LuaVarSys.h"
 #include "GameFuncs\util\LuaConsole.h"
+#include "GameFuncs\coregame_interface\LuaClientEvents.h"
+#include "GameFuncs\coregame_orders\LuaOrdersGameMove.h"
 
 class LuaEngine
 {

@@ -141,8 +141,34 @@ void LuaEngine::RegisterFunctions()
             {"CreateCmd", Lua_VarSysCreateCmd}
 
         });
-
     lua_setglobal(L, "VarSys");
+
+    //Client.Events
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"CreateParticle", Lua_ClientEventsCreateParticle},
+            {"CreateParticleCrc", Lua_ClientEventsCreateParticleCrc},
+            {"SelectUnit", Lua_ClientEventsSelectUnit},
+            {"UpdateSelectedLists", Lua_ClientEventsUpdateSelectedLists},
+            {"TriggerResponse", Lua_ClientEventsTriggerResponse},
+            {"TriggerClientMode", Lua_ClientEventsTriggerClientMode}
+        });
+    lua_setfield(L, -2, "Events");
+    lua_setglobal(L, "Client");
+
+    lua_newtable(L);
+    lua_newtable(L);
+    lua_newtable(L);
+
+    setFuncs(L,
+        {
+            {"Generate", Lua_OrdersGameMoveGenerate}
+        });
+
+    lua_setfield(L, -2, "Move");
+    lua_setfield(L, -2, "Game");
+    lua_setglobal(L, "Orders");
 
     //Internal
     lua_pushcfunction(L, Lua_Sleep);

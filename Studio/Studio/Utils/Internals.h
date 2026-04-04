@@ -14,4 +14,16 @@ public:
             Sleep(sleepMs);
         }
     }
+
+    class Math
+    {
+    public:
+        
+        struct Vector3
+        {
+            float x;
+            float y;
+            float z;
+        };
+    };
 };
