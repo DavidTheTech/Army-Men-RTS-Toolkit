@@ -3,11 +3,13 @@
 #include <vector>
 #include "..\GameFuncs\system\Log.h"
 #include "..\GameFuncs\util\VarSys.h"
-#include "../GameFuncs/util/Console.h"
+#include "..\GameFuncs\util\Console.h"
+#include "..\GameFuncs\graphics\Terrain.h"
 
 #include "LuaMapObject.h"
 #include "LuaMapObjManager.h"
-#include "../GameFuncs/graphics/Terrain.h"
+#include "LuaInternals.h"
+#include "LuaSquadManager.h"
 
 MapObjManager manager;
 
@@ -169,6 +171,34 @@ void LuaEngine::RegisterFunctions()
     lua_setfield(L, -2, "Move");
     lua_setfield(L, -2, "Game");
     lua_setglobal(L, "Orders");
+
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"ToggleGameUpdates", Lua_InternalsToggleGameUpdates},
+            {"GetGameState", Lua_InternalsGetGameState},
+            {"IsGameUpdating", Lua_InternalsIsGameUpdating}
+        });
+    lua_setglobal(L, "Internals");
+
+    lua_newtable(L);
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"Send", Lua_MultiplayerDataSend}
+        });
+    lua_setfield(L, -2, "Data");
+    lua_setglobal(L, "Multiplayer");
+
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"Create", Lua_SquadManagerCreate},
+            {"Add", Lua_SquadManagerAdd},
+            {"Select", Lua_SquadManagerSelect},
+            {"JumpTo", Lua_SquadManagerJumpTo}
+        });
+    lua_setglobal(L, "SquadManager");
 
     //Internal
     lua_pushcfunction(L, Lua_Sleep);

@@ -4,5 +4,5 @@
 
 namespace IFace
 {
-    void ScreenDump(const char* mask = "AMRTS_SD_%d.tga");
+	void CmdHandler(U32 pathCrc);
 }

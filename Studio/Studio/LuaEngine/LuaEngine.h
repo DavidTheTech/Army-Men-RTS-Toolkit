@@ -7,6 +7,7 @@
 #include "GameFuncs\util\LuaConsole.h"
 #include "GameFuncs\coregame_interface\LuaClientEvents.h"
 #include "GameFuncs\coregame_orders\LuaOrdersGameMove.h"
+#include "GameFuncs\multiplayer\LuaMultiplayerData.h"
 
 class LuaEngine
 {

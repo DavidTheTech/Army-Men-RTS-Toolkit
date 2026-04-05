@@ -180,6 +180,21 @@
     <ClCompile Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine\LuaInternals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFuncs\interface\IFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEngine\GameFuncs\interface\LuaIFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEngine\LuaSquadManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h">
@@ -351,6 +366,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\LuaInternals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFuncs\interface\IFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\GameFuncs\interface\LuaIFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine\LuaSquadManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

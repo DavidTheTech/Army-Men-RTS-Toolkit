@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameFuncs\coregame_interface\Client_events.cpp" />
+    <ClCompile Include="GameFuncs\interface\IFace.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
@@ -159,6 +160,10 @@
     <ClCompile Include="LuaEngine\LuaMapObjManager.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\util\LuaVarSys.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.cpp" />
+    <ClCompile Include="LuaEngine\LuaInternals.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.cpp" />
+    <ClCompile Include="LuaEngine\GameFuncs\interface\LuaIFace.cpp" />
+    <ClCompile Include="LuaEngine\LuaSquadManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
     <ClCompile Include="GameFuncs\game\Missions.cpp" />
@@ -206,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFuncs\coregame_interface\Client_events.h" />
+    <ClInclude Include="GameFuncs\interface\IFace.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
@@ -216,6 +222,10 @@
     <ClInclude Include="LuaEngine\LuaMapObjManager.h" />
     <ClInclude Include="LuaEngine\GameFuncs\util\LuaVarSys.h" />
     <ClInclude Include="LuaEngine\GameFuncs\coregame_orders\LuaOrdersGameMove.h" />
+    <ClInclude Include="LuaEngine\LuaInternals.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.h" />
+    <ClInclude Include="LuaEngine\GameFuncs\interface\LuaIFace.h" />
+    <ClInclude Include="LuaEngine\LuaSquadManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
     <ClInclude Include="GameFuncs\game\Missions.h" />
