@@ -149,3 +149,21 @@ bool MapObject::IsResource() const
     
     return isRes;
 }
+
+DWORD MapObject::GetTmp() const
+{
+    if (!objectAddress)
+    {
+        return 0;
+    }
+    return *reinterpret_cast<DWORD*>(objectAddress + 0x38);
+}
+
+DWORD MapObject::GetTmp2() const
+{
+    if (!objectAddress)
+    {
+        return 0;
+    }
+    return *reinterpret_cast<DWORD*>(objectAddress + 0x44);
+}

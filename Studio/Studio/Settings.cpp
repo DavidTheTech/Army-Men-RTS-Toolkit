@@ -77,6 +77,29 @@ void Settings::LoadJson(const std::string& filename)
     }
     InitBucketIndi = jsonData["InitBucketsIndices"].get<int>();
 
+    if (!jsonData.contains("Team"))
+    {
+        jsonData["Team"]["GetRelationColor"]["ally"] = { {"r", 0}, {"g", 255}, {"b", 0}, {"a", 255} };
+        jsonData["Team"]["GetRelationColor"]["enemy"] = { {"r", 255}, {"g", 0}, {"b", 0}, {"a", 255} };
+        jsonData["Team"]["GetRelationColor"]["neutral"] = { {"r", 0}, {"g", 255}, {"b", 255}, {"a", 255} };
+        updated = true;
+    }
+    auto& teamColors = jsonData["Team"]["GetRelationColor"];
+    allyColor.r = teamColors["ally"]["r"].get<int>();
+    allyColor.g = teamColors["ally"]["g"].get<int>();
+    allyColor.b = teamColors["ally"]["b"].get<int>();
+    allyColor.a = teamColors["ally"]["a"].get<int>();
+
+    enemyColor.r = teamColors["enemy"]["r"].get<int>();
+    enemyColor.g = teamColors["enemy"]["g"].get<int>();
+    enemyColor.b = teamColors["enemy"]["b"].get<int>();
+    enemyColor.a = teamColors["enemy"]["a"].get<int>();
+
+    neutralColor.r = teamColors["neutral"]["r"].get<int>();
+    neutralColor.g = teamColors["neutral"]["g"].get<int>();
+    neutralColor.b = teamColors["neutral"]["b"].get<int>();
+    neutralColor.a = teamColors["neutral"]["a"].get<int>();
+
     if (updated)
     {
         std::ofstream outFile(filename);
@@ -102,7 +125,14 @@ void Settings::CreateDefaultJson(const std::string& filename)
         {"AutoLaunchStudio", false},
         {"InitBucketsMultiplier", 4},
         {"InitBucketsVertices", 1450},
-        {"InitBucketsIndices", 4350}
+        {"InitBucketsIndices", 4350},
+        {"Team", {
+            {"GetRelationColor", {
+                {"ally", {{"r", 0}, {"g", 255}, {"b", 0}, {"a", 255}}},
+                {"enemy", {{"r", 255}, {"g", 0}, {"b", 0}, {"a", 255}}},
+                {"neutral", {{"r", 0}, {"g", 255}, {"b", 255}, {"a", 255}}}
+            }}
+        }}
     };
 
     std::ofstream outFile(filename);

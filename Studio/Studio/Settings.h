@@ -6,6 +6,11 @@
 
 using json = nlohmann::ordered_json;
 
+struct ColorConfig
+{
+    int r = 0, g = 0, b = 0, a = 255;
+};
+
 class Settings
 {
 public:
@@ -18,6 +23,11 @@ public:
     int InitBucketMulti = 4;
     int InitBucketVert = 1450;
     int InitBucketIndi = 4350;
+
+    // Team colors
+    ColorConfig allyColor;
+    ColorConfig enemyColor;
+    ColorConfig neutralColor;
 
     void LoadJson(const std::string& filename = "settings.json");
     void CreateDefaultJson(const std::string& filename = "settings.json");

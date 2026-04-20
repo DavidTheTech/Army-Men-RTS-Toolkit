@@ -30,6 +30,7 @@ void SetupLuaEngine()
     while (true)
     {
         lua.CheckAndReload();
+        lua.LuaLoop();
         Sleep(100);
     }
 }

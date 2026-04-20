@@ -22,6 +22,7 @@ public:
 
     void SetVariable(const std::string& name, int value);
     bool CheckAndReload();
+    void LuaLoop();
 
 private:
     

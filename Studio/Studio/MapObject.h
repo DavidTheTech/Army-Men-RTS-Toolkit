@@ -30,6 +30,8 @@ public:
     bool IsResource() const;
 
     DWORD GetID() const;
+    DWORD GetTmp() const;
+    DWORD GetTmp2() const;
 
     DWORD objectAddress;
 

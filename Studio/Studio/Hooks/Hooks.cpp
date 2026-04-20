@@ -1,11 +1,14 @@
 #include "Hooks.h"
-#include "../Settings.h"
-#include "../GameFuncs/graphics/Vid.h"
-#include "../GameFuncs/system/Log.h"
-#include "../Patches/Patches.h"
-#include "../GameFuncs/main/Main.h"
-#include "../Handlers/Handlers.h"
-#include "../GameFuncs/graphics/Terrain.h"
+#include "..\Settings.h"
+#include "..\GameFuncs\graphics\Vid.h"
+#include "..\GameFuncs\system\Log.h"
+#include "..\Patches\Patches.h"
+#include "..\GameFuncs\main\Main.h"
+#include "..\Handlers\Handlers.h"
+#include "..\GameFuncs\graphics\Terrain.h"
+#include "..\GameFuncs\system\defines.h"
+#include "..\GameFuncs\coregame\Team.h"
+#include "..\GameFuncs\coregame\releation.h"
 
 typedef void(__fastcall* InitBuckets_t)(unsigned int count, unsigned int size, float ratio, int flush, unsigned int tcount, unsigned int tsize, float tratio);
 static InitBuckets_t realInitBuckets = nullptr;
@@ -55,6 +58,72 @@ typedef U32(__fastcall* CrcCalcStr_t)(const char* str, U32 crc);
 static CrcCalcStr_t realCrcCalcStr = nullptr;
 static CrcCalcStr_t hookCrcCalcStr = reinterpret_cast<CrcCalcStr_t>(0x4D9A30);
 //END
+
+typedef int(__fastcall* Vid_SetMode_t)(U32 mode, U32 width, U32 height, bool force);
+static Vid_SetMode_t realVidSetMode = nullptr;
+static Vid_SetMode_t hookVidSetMode = reinterpret_cast<Vid_SetMode_t>(0x41DD50);
+
+
+struct Vector
+{
+    float x, y, z;
+};
+
+typedef void(__thiscall* Blip_t)(void* pThis, Color color, F32 persistTime);
+static Blip_t realBlip = nullptr;
+static Blip_t hookBlip = reinterpret_cast<Blip_t>(0x005BB160);
+
+static void __fastcall detourBlip(void* pThis, int /*edx*/, Color color, F32 persistTime)
+{
+    printf("Blip: this=%p, color=(%d,%d,%d,%d), persistTime=%f\n", pThis, color.r, color.g, color.b, color.a, persistTime);
+    realBlip(pThis, color, persistTime);
+}
+
+typedef DWORD* (__fastcall* Team_GetRelationColor_t)(DWORD* pThis, void* /*edx*/, DWORD* outColor, DWORD* team2);
+static Team_GetRelationColor_t realGetRelationColor = nullptr;
+static Team_GetRelationColor_t hookGetRelationColor = reinterpret_cast<Team_GetRelationColor_t>(0x547710);
+
+static DWORD* __fastcall detourGetRelationColor(DWORD* pThis, void* /*edx*/, DWORD* outColor, DWORD* team2)
+{
+    DWORD relation = Team::GetRelation(pThis, team2);
+
+    ColorConfig* cfg = nullptr;
+
+    switch (relation)
+    {
+    case Relation::ALLY:
+        cfg = &g_settings.allyColor;
+        break;
+
+    case Relation::ENEMY:
+        cfg = &g_settings.enemyColor;
+        break;
+
+    default:
+        cfg = &g_settings.neutralColor;
+        break;
+    }
+
+    Color color;
+    color.r = cfg->r;
+    color.g = cfg->g;
+    color.b = cfg->b;
+    color.a = cfg->a;
+
+    *outColor = color.color;
+
+    return outColor;
+}
+
+
+static int __fastcall detourVidSetMode(U32 mode, U32 width, U32 height, bool force)
+{
+    printf("mode: %d, width: %d, height: %d, force : %d\n", mode, width, height, force);
+    width = 1920;
+    force = true;
+    printf("UPDATED mode: %d, width: %d, height: %d, force : %d\n", mode, width, height, force);
+    return realVidSetMode(mode, width, height, force);
+}
 
 static U32 __fastcall detourCrcCalcStr(const char* str, U32 crc)
 {
@@ -215,6 +284,13 @@ bool Hooks::Setup()
     if (MH_CreateHook(reinterpret_cast<void*>(hookTerrainCmdHandler), &detourTerrainCmdHandler, reinterpret_cast<void**>(&realTerrainCmdHandler)) != MH_OK) return 1;
     //if (MH_CreateHook(reinterpret_cast<void*>(hookCrcCalcStr), &detourCrcCalcStr, reinterpret_cast<void**>(&realCrcCalcStr)) != MH_OK) return 1;
 
+    if (MH_CreateHook(reinterpret_cast<void*>(hookVidSetMode), &detourVidSetMode, reinterpret_cast<void**>(&realVidSetMode)) != MH_OK) return 1;
+    //if (MH_CreateHook(reinterpret_cast<void*>(hookUnitConstructor), &detourQueueAdd, reinterpret_cast<void**>(&realUnitConstructor)) != MH_OK) return 1;
+    
+    //if (MH_CreateHook(reinterpret_cast<void*>(hookBlip), &detourBlip, reinterpret_cast<void**>(&realBlip)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookGetRelationColor), &detourGetRelationColor, reinterpret_cast<void**>(&realGetRelationColor)) != MH_OK) return 1;
+
+
     if (MH_EnableHook(reinterpret_cast<void*>(hookCreateMainWindow)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookMainCreateGameWindow)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookCoreGameInit)) != MH_OK) return 1;
@@ -226,9 +302,16 @@ bool Hooks::Setup()
     if (MH_EnableHook(reinterpret_cast<void*>(hookTerrainCmdHandler)) != MH_OK) return 1;
     //if (MH_EnableHook(reinterpret_cast<void*>(hookCrcCalcStr)) != MH_OK) return 1;
 
+    if (MH_EnableHook(reinterpret_cast<void*>(hookVidSetMode)) != MH_OK) return 1;
+    //if (MH_EnableHook(reinterpret_cast<void*>(hookUnitConstructor)) != MH_OK) return 1;
+    
+    //if (MH_EnableHook(reinterpret_cast<void*>(hookBlip)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookGetRelationColor)) != MH_OK) return 1;
 
     /*
     if (MH_CreateHook(reinterpret_cast<void**>(hookVidRenderBegin), &detourVidRenderBegin, reinterpret_cast<void**>(&realVidRenderBegin)) != MH_OK) return 1;
     if (MH_CreateHook(reinterpret_cast<void**>(hookVidRenderEnd), &detourVidRenderEnd, reinterpret_cast<void**>(&realVidRenderEnd)) != MH_OK) return 1;
     */
+
+    return true;
 }

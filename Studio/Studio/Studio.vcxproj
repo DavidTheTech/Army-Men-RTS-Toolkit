@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\coregame_interface\Common_mapwindow.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client_events.cpp" />
     <ClCompile Include="GameFuncs\interface\IFace.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -164,10 +165,13 @@
     <ClCompile Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\interface\LuaIFace.cpp" />
     <ClCompile Include="LuaEngine\LuaSquadManager.cpp" />
+    <ClCompile Include="LuaEngine\LuaFun.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
     <ClCompile Include="GameFuncs\game\Missions.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders_game_move.cpp" />
+    <ClCompile Include="GameFuncs\coregame_orders\Orders_game_constructor.cpp" />
+    <ClCompile Include="GameFuncs\coregame\Team.cpp" />
     <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
@@ -210,6 +214,8 @@
     <ClCompile Include="Utils\Internals.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\coregame\releation.h" />
+    <ClInclude Include="GameFuncs\coregame_interface\Common_mapwindow.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client_events.h" />
     <ClInclude Include="GameFuncs\interface\IFace.h" />
     <ClInclude Include="Game\Game.h" />
@@ -226,10 +232,13 @@
     <ClInclude Include="LuaEngine\GameFuncs\multiplayer\LuaMultiplayerData.h" />
     <ClInclude Include="LuaEngine\GameFuncs\interface\LuaIFace.h" />
     <ClInclude Include="LuaEngine\LuaSquadManager.h" />
+    <ClInclude Include="LuaEngine\LuaFun.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
     <ClInclude Include="GameFuncs\game\Missions.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders_game_move.h" />
+    <ClInclude Include="GameFuncs\coregame_orders\Orders_game_constructor.h" />
+    <ClInclude Include="GameFuncs\coregame\Team.h" />
     <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />

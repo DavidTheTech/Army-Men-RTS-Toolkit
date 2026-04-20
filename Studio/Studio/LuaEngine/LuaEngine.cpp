@@ -10,8 +10,10 @@
 #include "LuaMapObjManager.h"
 #include "LuaInternals.h"
 #include "LuaSquadManager.h"
+#include "LuaFun.h"
 
 MapObjManager manager;
+HANDLE LuaLoopHandle = NULL;
 
 LuaEngine::LuaEngine() : L(nullptr)
 {
@@ -36,6 +38,7 @@ bool LuaEngine::Initialize()
 
     luaL_openlibs(L);
     RegisterFunctions();
+
     return true;
 }
 
@@ -92,6 +95,14 @@ bool LuaEngine::CheckAndReload()
     return false;
 }
 
+void LuaEngine::LuaLoop()
+{
+    if (L)
+    {
+        ProcessKeybindings(L);
+    }
+}
+
 bool LuaEngine::ExecuteString(const std::string& code)
 {
     if (luaL_dostring(L, code.c_str()) != LUA_OK)
@@ -115,7 +126,7 @@ void LuaEngine::RegisterFunctions()
     auto setFuncs = [](lua_State* L, const std::vector<std::pair<const char*, lua_CFunction>>& funcs)
     {
         lua_newtable(L);
-        for (const std::pair<const char*, lua_CFunction>& p : funcs)
+        for (const auto& p : funcs)
         {
             lua_pushcfunction(L, p.second);
             lua_setfield(L, -2, p.first);
@@ -124,7 +135,7 @@ void LuaEngine::RegisterFunctions()
 
     setFuncs(L, {});//Log table
     lua_newtable(L);//Client table
-    setFuncs(L, {{"Write", Lua_LogClientWrite}});//Write to Client
+    setFuncs(L, { {"Write", Lua_LogClientWrite} });//Write to Client
     lua_setfield(L, -2, "Client");//Log.Client = Client
     lua_setglobal(L, "Log");//_G.Log = Log
 
@@ -159,6 +170,15 @@ void LuaEngine::RegisterFunctions()
     lua_setfield(L, -2, "Events");
     lua_setglobal(L, "Client");
 
+    //Fun commands
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"RandomColor", Lua_FunRandomColor}
+        });
+    lua_setglobal(L, "Fun");
+
+
     lua_newtable(L);
     lua_newtable(L);
     lua_newtable(L);
@@ -172,15 +192,36 @@ void LuaEngine::RegisterFunctions()
     lua_setfield(L, -2, "Game");
     lua_setglobal(L, "Orders");
 
+    //Internals
     lua_newtable(L);
+
+    //Internals.State
     setFuncs(L,
         {
             {"ToggleGameUpdates", Lua_InternalsToggleGameUpdates},
-            {"GetGameState", Lua_InternalsGetGameState},
-            {"IsGameUpdating", Lua_InternalsIsGameUpdating}
+            {"IsGameUpdating", Lua_InternalsIsGameUpdating},
+            {"GetGameState", Lua_InternalsGetGameState}
         });
+    lua_setfield(L, -2, "State");
+
+    //Internals.Keybinds
+    setFuncs(L,
+        {
+            {"Bind", Lua_InternalsBind},
+            {"Unbind", Lua_InternalsUnbind}
+        });
+
+    lua_newtable(L);
+    lua_pushcfunction(L, Lua_KeybindsGetProperty);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, Lua_KeybindsSetProperty);
+    lua_setfield(L, -2, "__newindex");
+    lua_setmetatable(L, -2);
+
+    lua_setfield(L, -2, "Keybinds");
     lua_setglobal(L, "Internals");
 
+    //Multiplayer.Data
     lua_newtable(L);
     lua_newtable(L);
     setFuncs(L,
