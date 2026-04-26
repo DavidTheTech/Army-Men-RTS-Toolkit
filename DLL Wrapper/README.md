@@ -1,5 +1,8 @@
 # Studio Launcher – dbghelp Setup
 
+> **Note:** The repository includes `dbghelp_r.dll` (version `10.0.14321.1024`, 32‑bit, built on `Sat Jul 16 01:29:54 2016`).  
+> This version is required because the original `dbghelp.dll` is incompatible with some modern AMD drivers/GPUs.
+
 ## If you have already used Studio before
 
 1. Navigate to `Library/dbg/` in your Studio installation folder.
