@@ -25,7 +25,6 @@ public:
     void LuaLoop();
 
 private:
-    
     std::string m_scriptPath;
     FILETIME m_lastModTime;
 
@@ -35,7 +34,13 @@ private:
     //Log::Client
     static int Lua_LogClientWrite(lua_State* L);
 
+    static int Lua_IFaceMsgBox(lua_State* L);
+    static int Lua_IFaceMsgBoxWithCallbacks(lua_State* L);
+
     //In house funcs
     static int Lua_Sleep(lua_State* L);
     static int Lua_TmpFn(lua_State* L);
+    static int Lua_Test(lua_State* L);
 };
+
+extern lua_State* g_luaState;

@@ -4,5 +4,5 @@
 
 namespace IFace
 {
-	void CmdHandler(U32 pathCrc);
+    void CmdHandler(U32 pathCrc);
 }

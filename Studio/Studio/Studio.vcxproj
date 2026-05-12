@@ -155,6 +155,7 @@
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
     <ClCompile Include="Handlers\Handlers.cpp" />
+    <ClCompile Include="GameFuncs\interface\IFace_messagebox.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\coregame_interface\LuaClientEvents.cpp" />
     <ClCompile Include="LuaEngine\GameFuncs\util\LuaConsole.cpp" />
     <ClCompile Include="LuaEngine\LuaMapObject.cpp" />
@@ -172,6 +173,8 @@
     <ClCompile Include="GameFuncs\coregame_orders\Orders_game_move.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders_game_constructor.cpp" />
     <ClCompile Include="GameFuncs\coregame\Team.cpp" />
+    <ClCompile Include="GameFuncs\interface\Messagebox_event.cpp" />
+    <ClCompile Include="GameFuncs\coregame\TerrainData.cpp" />
     <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
@@ -222,6 +225,7 @@
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
     <ClInclude Include="Handlers\Handlers.h" />
+    <ClInclude Include="GameFuncs\interface\IFace_messagebox.h" />
     <ClInclude Include="LuaEngine\GameFuncs\coregame_interface\LuaClientEvents.h" />
     <ClInclude Include="LuaEngine\GameFuncs\util\LuaConsole.h" />
     <ClInclude Include="LuaEngine\LuaMapObject.h" />
@@ -239,6 +243,8 @@
     <ClInclude Include="GameFuncs\coregame_orders\Orders_game_move.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders_game_constructor.h" />
     <ClInclude Include="GameFuncs\coregame\Team.h" />
+    <ClInclude Include="GameFuncs\interface\Messagebox_event.h" />
+    <ClInclude Include="GameFuncs\coregame\TerrainData.h" />
     <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />

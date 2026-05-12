@@ -24,3 +24,13 @@ U32 Terrain::RenderTerrainMap(const char* filename, U32 size, DWORD doColor, DWO
     //printf("%s %d %d %d\n", filename, size, doColor, doOverlay);
     return RenderTerrainMap_Fn(filename, size, doColor, doOverlay);
 }
+
+U32 Terrain::CellHeight()
+{
+    return *reinterpret_cast<unsigned long*>(0x71EF18);
+}
+
+U32 Terrain::CellWidth()
+{
+    return *reinterpret_cast<unsigned long*>(0x71EF10);
+}

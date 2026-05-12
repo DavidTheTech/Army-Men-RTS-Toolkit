@@ -3,6 +3,8 @@
 #include "../GameFuncs/game/GameGod.h"
 #include "../MapObjManager.h"
 #include "../GameFuncs/coregame_interface/Client.h"
+#include "../GameFuncs/interface/IFace_messagebox.h"
+#include "../GameFuncs/interface/Messagebox_event.h"
 
 typedef void* (__cdecl* AllocMemOPNew_t)(U32 size);
 static AllocMemOPNew_t AllocMemOPNewFn = (AllocMemOPNew_t)(Memory::ScanAddress(0x005BBD6E));
@@ -28,9 +30,41 @@ static inline void* CallSub5CCCD0(void* dst, void* src)
     return Sub5CCCD0Fn(dst, src);
 }
 
+void CallbackTest(unsigned int event, unsigned int context)
+{
+    switch (event)
+    {
+        case 0x17AB79A2: // "Abort"
+        {
+            Sleep(100);
+            IFace::MsgBox("Hello", "aborted", "ok");
+            break;
+        }
+        case 0xC53B955D: // "Continue"
+        {
+            IFace::MsgBox("Hello", "continued", "ok");
+            break;
+        }
+    }
+}
+
 void Testing::Test()
 {
-    Sleep(10000);
+    
+    //Sleep(10000);
+
+
+    //More than max 8 players test
+
+
+    /*//was working now broken...
+    MBEventCallback* btnAbort = MBEventCallback::Create("Abort", "Abort", CallbackTest);
+    MBEventCallback* btnContinue = MBEventCallback::Create("Continue", "Continue", CallbackTest);
+    //
+
+    IFace::MsgBox("Test", "Swag error.", btnAbort, btnContinue);
+    btnAbort->Process();*/
+
 
     //*(char*)(0x68B818) = 0x73;
     

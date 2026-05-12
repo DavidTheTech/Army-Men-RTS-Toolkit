@@ -85,20 +85,27 @@ void Settings::LoadJson(const std::string& filename)
         updated = true;
     }
     auto& teamColors = jsonData["Team"]["GetRelationColor"];
-    allyColor.r = teamColors["ally"]["r"].get<int>();
-    allyColor.g = teamColors["ally"]["g"].get<int>();
-    allyColor.b = teamColors["ally"]["b"].get<int>();
-    allyColor.a = teamColors["ally"]["a"].get<int>();
 
-    enemyColor.r = teamColors["enemy"]["r"].get<int>();
-    enemyColor.g = teamColors["enemy"]["g"].get<int>();
-    enemyColor.b = teamColors["enemy"]["b"].get<int>();
-    enemyColor.a = teamColors["enemy"]["a"].get<int>();
+    allyColor.Set(
+        teamColors["ally"]["r"].get<int>(),
+        teamColors["ally"]["g"].get<int>(),
+        teamColors["ally"]["b"].get<int>(),
+        teamColors["ally"]["a"].get<int>()
+    );
 
-    neutralColor.r = teamColors["neutral"]["r"].get<int>();
-    neutralColor.g = teamColors["neutral"]["g"].get<int>();
-    neutralColor.b = teamColors["neutral"]["b"].get<int>();
-    neutralColor.a = teamColors["neutral"]["a"].get<int>();
+    enemyColor.Set(
+        teamColors["enemy"]["r"].get<int>(),
+        teamColors["enemy"]["g"].get<int>(),
+        teamColors["enemy"]["b"].get<int>(),
+        teamColors["enemy"]["a"].get<int>()
+    );
+
+    neutralColor.Set(
+        teamColors["neutral"]["r"].get<int>(),
+        teamColors["neutral"]["g"].get<int>(),
+        teamColors["neutral"]["b"].get<int>(),
+        teamColors["neutral"]["a"].get<int>()
+    );
 
     if (updated)
     {

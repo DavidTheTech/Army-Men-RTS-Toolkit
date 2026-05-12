@@ -3,12 +3,21 @@
 #include <fstream>
 #include <iostream>
 #include <json.hpp>
+#include <algorithm>
 
 using json = nlohmann::ordered_json;
 
 struct ColorConfig
 {
     int r = 0, g = 0, b = 0, a = 255;
+
+    void Set(int rIn, int gIn, int bIn, int aIn)
+    {
+        r = rIn;
+        g = gIn;
+        b = bIn;
+        a = aIn;
+    }
 };
 
 class Settings

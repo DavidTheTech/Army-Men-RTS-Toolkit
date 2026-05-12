@@ -4,5 +4,8 @@
 
 namespace IFace
 {
-    void ScreenDump(const char* mask = "AMRTS_SD_%d.tga");
+    namespace Util
+    {
+        void ScreenDump(const char* mask = "AMRTS_SD_%d.tga");
+    }
 }
