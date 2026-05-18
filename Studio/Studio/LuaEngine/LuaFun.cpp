@@ -2,7 +2,6 @@
 
 int Lua_FunRandomColor(lua_State* L)
 {
-    printf("hello\n");
     DWORD** teamArray = (DWORD**)0x76F898;
     if (!teamArray) return 0;
 

@@ -20,8 +20,14 @@ static VarSysCreateInteger_t VarSysCreateInteger = (VarSysCreateInteger_t)(Memor
 static VarSysCreateFloat_t VarSysCreateFloat = (VarSysCreateFloat_t)(Memory::ScanAddress(0x4E4480));
 
 static VarSysRegisterHandlerFn VarSys_RegisterHandler = (VarSysRegisterHandlerFn)(Memory::ScanAddress(0x4E4220));
-
 static VarSysSetString_t SetString_Fn = (VarSysSetString_t)(Memory::ScanAddress(0x4E0120));
+
+
+typedef void* (__cdecl* FindVarItem_t)(const char* path, void* context, bool required);
+static FindVarItem_t VarSysFindVarItem = (FindVarItem_t)(Memory::ScanAddress(0x4E3D20));
+
+typedef float(__thiscall* VarItemFloat_t)(void* varItem);
+static VarItemFloat_t VarItemFloat = (VarItemFloat_t)(Memory::ScanAddress(0x4E30B0));
 
 int VarSys::CreateString(const char* name, const char* value, U32 flagsIn, void* varPtr, void* context)
 {
@@ -35,6 +41,8 @@ int VarSys::CreateInteger(const char* name, int value, U32 flagsIn, void* varPtr
 
 int VarSys::CreateFloat(const char* path, float value, U32 flagsIn, void* varPtr, void* context)
 {
+    //U32 floatBits = *(U32*)&value;
+    //return (void*)VarSysCreateFloat(path, (int)flagsIn, floatBits, varPtr, context);
     return VarSysCreateFloat(path, value, flagsIn, varPtr, context);
 }
 
@@ -51,4 +59,14 @@ void VarSys::RegisterHandler(const char* path, VarSysCallBack func, U32 flags)
 void VarSys::SetString(void* varPtr, const char* strValue)
 {
     return SetString_Fn(varPtr, strValue);
+}
+
+void* VarSys::FindVarItem(const char* path)
+{
+    return VarSysFindVarItem(path, nullptr, false);
+}
+
+float VarSys::GetFloat(void* varItem)
+{
+    return VarItemFloat(varItem);
 }

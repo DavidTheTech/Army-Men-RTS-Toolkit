@@ -217,15 +217,15 @@ static int Lua_MapObject_QueueUnit(lua_State* L)
     
     DWORD constructorTask = obj->GetTmp();
 
-    printf("swa\n");
-    printf("0x%08X\n", constructorTask);
-    printf("swaend\n");
+    //printf("swa\n");
+    //printf("0x%08X\n", constructorTask);
+    //printf("swaend\n");
 
     typedef void(__thiscall* QueueAdd_t)(void* task, U32 constructCrc);
     QueueAdd_t QueueAdd = (QueueAdd_t)(Memory::ScanAddress(0x62D690));
 
 
-    printf("0x%08X : 0x%08X\n", constructorTask, (obj->objectAddress - 3));
+    //printf("0x%08X : 0x%08X\n", constructorTask, (obj->objectAddress - 3));
 
     //QueueAdd((void*)constructorTask, unitnameCrc);
 

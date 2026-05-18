@@ -41,6 +41,8 @@ private:
     static int Lua_Sleep(lua_State* L);
     static int Lua_TmpFn(lua_State* L);
     static int Lua_Test(lua_State* L);
+    static int Lua_Test2(lua_State* L);
+    static int Lua_Test3(lua_State* L);
 };
 
 extern lua_State* g_luaState;

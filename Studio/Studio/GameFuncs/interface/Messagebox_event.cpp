@@ -2,9 +2,6 @@
 #include <new>
 #include <stdio.h>
 
-typedef void* (__cdecl* AllocMemOPNew_t)(size_t bytes);
-static AllocMemOPNew_t AllocMemOPNew = (AllocMemOPNew_t)Memory::ScanAddress(0x4CFAB0);
-
 typedef void* (__thiscall* MBEventCtor_t)(void* pThis, const char* ident, const char* caption);
 static MBEventCtor_t MBEventCtor = (MBEventCtor_t)Memory::ScanAddress(0x4A6770);
 
@@ -22,7 +19,7 @@ MBEvent::~MBEvent()
 
 MBEventCallback* MBEventCallback::Create(const char* ident, const char* caption, Proc callbackProc, unsigned int callbackContext)
 {
-    void* mem = AllocMemOPNew(0x6C);
+    void* mem = Debug::Memory::NewOperator(0x6C);
     if (!mem)
     {
         return nullptr;

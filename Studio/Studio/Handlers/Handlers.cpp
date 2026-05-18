@@ -1,6 +1,9 @@
 #include "Handlers.h"
 #include "../GameFuncs/util/VarSys.h"
 #include "../GameFuncs/coregame_interface/Client.h"
+#include "../GameFuncs/coregame/TerrainData.h"
+#include "../GameFuncs/graphics/Terrain.h"
+#include "../Game/Game.h"
 
 void teststuff()
 {
@@ -77,6 +80,53 @@ void __fastcall Handlers::CmdClientHandler(U32 value)
         }
     }
 }
+
+typedef int(__thiscall* VarItemInteger_t)(void*);
+VarItemInteger_t VarItemInteger = (VarItemInteger_t)(Memory::ScanAddress(0x4E2FC0));
+typedef float(__thiscall* VarItemFloat_t)(void* varItem);
+VarItemFloat_t VarItemFloat = (VarItemFloat_t)(Memory::ScanAddress(0x4E30B0));
+
+void __fastcall Handlers::StudioTerrainGenHandler(U32 value)
+{
+    switch (value)
+    {
+        case 0x4DC7D7DE:
+        {
+            //float minHeight = (float)terrainGenHeightMin;
+            //float maxHeight = (float)terrainGenHeightMax;
+
+            float minVal = VarItemFloat(g_terrainMinVarItem);
+            float maxVal = VarItemFloat(g_terrainMaxVarItem);
+            float minHeight = (float)minVal;
+            float maxHeight = (float)maxVal;
+
+            //void* minItem = VarSys::FindVarItem("studio.terraingen.min");
+            //void* maxItem = VarSys::FindVarItem("studio.terraingen.max");
+            //float minHeight = VarSys::GetFloat(minItem);
+            //float maxHeight = VarSys::GetFloat(maxItem);
+            
+            //printf("min%f max%f\n", minHeight, maxHeight);
+
+            //printf("min%f min2 %f\n", minHeight, minVal);
+            //printf("max%f max2 %f\n", minHeight, maxVal);
+
+            TerrainData::SessionStart();
+
+            for (U32 x = 0; x < Terrain::CellWidth() + 1; x++)
+            {
+                for (U32 y = 0; y < Terrain::CellHeight() + 1; y++)
+                {
+                    float randomHeight = minHeight + (float)rand() / RAND_MAX * (maxHeight - minHeight);
+                    TerrainData::SessionModifyHeight(x, y, randomHeight);
+                }
+            }
+
+            TerrainData::SessionEnd();
+            break;
+        }
+    }
+}
+
 //TODO, add a hook somewhere to call handlers again, after a "scene" change it deletes them
 void Handlers::LoadHandlers()
 {
@@ -97,6 +147,6 @@ void Handlers::LoadHandlers()
     //custom
 	VarSys::CreateCmd("client.development.swag"); //case 0x330F1664: // "client.development.swag"
 
-    VarSys::RegisterHandler("god", CmdClientHandler);
-    VarSys::CreateCmd("god.kill");
+    //printf("handlers loaded\n");
+    Log::Client::Write("[STUDIO DLL]: Handlers Loaded");
 }

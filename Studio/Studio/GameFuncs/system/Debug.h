@@ -8,4 +8,9 @@ namespace Debug
     {
         void FPURegisters(DWORD* Context);
     }
+
+    namespace Memory
+    {
+        void* NewOperator(size_t bytes);
+    }
 };

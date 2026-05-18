@@ -9,6 +9,9 @@
 #include "..\GameFuncs\system\defines.h"
 #include "..\GameFuncs\coregame\Team.h"
 #include "..\GameFuncs\coregame\releation.h"
+#include "../Game/studio_brush_terrainGen.h"
+#include "../Game/Game.h"
+#include "../GameFuncs/system/Debug.h"
 
 typedef void(__fastcall* InitBuckets_t)(unsigned int count, unsigned int size, float ratio, int flush, unsigned int tcount, unsigned int tsize, float tratio);
 static InitBuckets_t realInitBuckets = nullptr;
@@ -64,6 +67,54 @@ static Vid_SetMode_t realVidSetMode = nullptr;
 static Vid_SetMode_t hookVidSetMode = reinterpret_cast<Vid_SetMode_t>(0x41DD50);
 
 
+//Studio
+
+//brushes
+typedef void(__cdecl* Studio_Brush_t)();
+static Studio_Brush_t realStudioBrushCreateBrushes = nullptr;
+static Studio_Brush_t hookStudioBrushCreateBrushes = reinterpret_cast<Studio_Brush_t>(0x5BD450);
+
+//
+typedef void* (__cdecl* AllocMemOPNew2_t)(size_t bytes);
+static AllocMemOPNew2_t AllocMemOPNew2 = (AllocMemOPNew2_t)Memory::ScanAddress(0x4CFAB0);
+
+typedef void(__thiscall* CreateBrush_t)(void* mem);
+static CreateBrush_t CreateBrush_Fn = (CreateBrush_t)(Memory::ScanAddress(0x5BD6D0));
+
+static void __cdecl detourCreateBrushes()
+{
+    realStudioBrushCreateBrushes();
+
+    void* mem = Debug::Memory::NewOperator(0xFF); //we'll just use this size for now
+    if (mem)
+    {
+        Studio::Brush::TerrainGen* brush = new (mem) Studio::Brush::TerrainGen(mem, "TerrainGen");
+        CreateBrush_Fn(brush);
+    }
+}
+
+typedef void(__cdecl* StudioCmdInit_t)();
+static StudioCmdInit_t realStudioCmdInit = nullptr;
+static StudioCmdInit_t hookStudioCmdInit = reinterpret_cast<StudioCmdInit_t>(0x5E49D0);
+
+typedef void(__cdecl* StudioCmdDone_t)();
+static StudioCmdDone_t realStudioCmdDone = nullptr;
+static StudioCmdDone_t hookStudioCmdDone = reinterpret_cast<StudioCmdDone_t>(0x5E50F0);
+
+
+static void __cdecl detourStudioCmdInit()
+{
+    realStudioCmdInit();
+    Game::SetupVars();
+    //return 1;
+}
+
+static void __cdecl detourStudioCmdDone()
+{
+    realStudioCmdDone();
+}
+
+//test shit x9999
 struct Vector
 {
     float x, y, z;
@@ -78,6 +129,7 @@ static void __fastcall detourBlip(void* pThis, int /*edx*/, Color color, F32 per
     printf("Blip: this=%p, color=(%d,%d,%d,%d), persistTime=%f\n", pThis, color.r, color.g, color.b, color.a, persistTime);
     realBlip(pThis, color, persistTime);
 }
+//end
 
 typedef DWORD* (__fastcall* Team_GetRelationColor_t)(DWORD* pThis, void* /*edx*/, DWORD* outColor, DWORD* team2);
 static Team_GetRelationColor_t realGetRelationColor = nullptr;
@@ -290,6 +342,11 @@ bool Hooks::Setup()
     //if (MH_CreateHook(reinterpret_cast<void*>(hookBlip), &detourBlip, reinterpret_cast<void**>(&realBlip)) != MH_OK) return 1;
     if (MH_CreateHook(reinterpret_cast<void*>(hookGetRelationColor), &detourGetRelationColor, reinterpret_cast<void**>(&realGetRelationColor)) != MH_OK) return 1;
 
+    if (MH_CreateHook(reinterpret_cast<void*>(hookStudioBrushCreateBrushes), &detourCreateBrushes, reinterpret_cast<void**>(&realStudioBrushCreateBrushes)) != MH_OK) return 1;
+    
+    if (MH_CreateHook(reinterpret_cast<void*>(hookStudioCmdInit), &detourStudioCmdInit, reinterpret_cast<void**>(&realStudioCmdInit)) != MH_OK) return 1;
+    if (MH_CreateHook(reinterpret_cast<void*>(hookStudioCmdDone), &detourStudioCmdDone, reinterpret_cast<void**>(&realStudioCmdDone)) != MH_OK) return 1;
+
 
     if (MH_EnableHook(reinterpret_cast<void*>(hookCreateMainWindow)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookMainCreateGameWindow)) != MH_OK) return 1;
@@ -307,6 +364,11 @@ bool Hooks::Setup()
     
     //if (MH_EnableHook(reinterpret_cast<void*>(hookBlip)) != MH_OK) return 1;
     if (MH_EnableHook(reinterpret_cast<void*>(hookGetRelationColor)) != MH_OK) return 1;
+
+    if (MH_EnableHook(reinterpret_cast<void*>(hookStudioBrushCreateBrushes)) != MH_OK) return 1;
+    
+    if (MH_EnableHook(reinterpret_cast<void*>(hookStudioCmdInit)) != MH_OK) return 1;
+    if (MH_EnableHook(reinterpret_cast<void*>(hookStudioCmdDone)) != MH_OK) return 1;
 
     /*
     if (MH_CreateHook(reinterpret_cast<void**>(hookVidRenderBegin), &detourVidRenderBegin, reinterpret_cast<void**>(&realVidRenderBegin)) != MH_OK) return 1;

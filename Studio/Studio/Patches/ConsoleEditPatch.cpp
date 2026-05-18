@@ -14,7 +14,7 @@ static void __declspec(naked) ConsoleEditTweak()
     __asm
     {
         push    0x2F8
-        call    AllocMem2
+        call    Debug::Memory::NewOperator
         add     esp, 4
 
         mov[ebp + 0x10], eax

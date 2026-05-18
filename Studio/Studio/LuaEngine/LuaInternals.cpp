@@ -360,7 +360,7 @@ int Lua_InternalsBind(lua_State* L)
     lua_pushvalue(L, 2);
     int ref = luaL_ref(L, LUA_REGISTRYINDEX);
     keyBindings[combo] = ref;
-    printf("done\n");
+    //printf("done\n");
     return 0;
 }
 

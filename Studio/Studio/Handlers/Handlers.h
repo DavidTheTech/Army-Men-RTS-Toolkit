@@ -11,5 +11,6 @@ private:
     static void __fastcall ClientDevCmdClientHandler(U32 value);
 
 public:
+    static void __fastcall StudioTerrainGenHandler(U32 value);
     static void LoadHandlers();
 };

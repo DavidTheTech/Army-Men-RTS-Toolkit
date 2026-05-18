@@ -245,7 +245,7 @@ int LuaEngine::Lua_Sleep(lua_State* L)
     return 0;
 }
 
-int LuaEngine::Lua_Test(lua_State* L)
+/*int LuaEngine::Lua_Test(lua_State* L)
 {
     TerrainData::SessionStart();
 
@@ -260,7 +260,42 @@ int LuaEngine::Lua_Test(lua_State* L)
 
     TerrainData::SessionEnd();
     return 0;
+}*/
+
+int LuaEngine::Lua_Test(lua_State* L)
+{
+    int x = luaL_checkinteger(L, 1);
+    int y = luaL_checkinteger(L, 2);
+    float height = (float)luaL_checknumber(L, 3);
+
+    U32 width = Terrain::CellWidth() + 1;
+    U32 heightCells = Terrain::CellHeight() + 1;
+    if (x < 0 || x >= (int)width || y < 0 || y >= (int)heightCells)
+    {
+        return 0;
+    }
+
+    TerrainData::SessionStart();
+    TerrainData::SessionModifyHeight(x, y, height);
+    TerrainData::SessionEnd();
+
+    return 0;
 }
+
+int LuaEngine::Lua_Test2(lua_State* L)
+{
+    U32 width = Terrain::CellWidth();
+    lua_pushinteger(L, width);
+    return 1;
+}
+
+int LuaEngine::Lua_Test3(lua_State* L)
+{
+    U32 height = Terrain::CellHeight();
+    lua_pushinteger(L, height);
+    return 1;
+}
+
 
 void LuaEngine::RegisterFunctions()
 {
@@ -396,7 +431,15 @@ void LuaEngine::RegisterFunctions()
     lua_setglobal(L, "testterrain");
 
     lua_pushcfunction(L, Lua_Test);
-    lua_setglobal(L, "TerrainRand");
+    lua_setglobal(L, "TerrainGen");
+
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"CellWidth", Lua_Test2},
+            {"CellHeight", Lua_Test3},
+        });
+    lua_setglobal(L, "Terrain");
 
     RegisterMapObjManager(L, manager);
 }

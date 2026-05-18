@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <stdio.h>
 #include "..\..\Memory\Memory.h"
 
 typedef void(__fastcall* VarSysCallBack)(U32);
@@ -27,13 +28,40 @@ public:
     struct VarIntegerFake
     {
         void* vtable;
-        DWORD itemReaper[3];
+        DWORD itemReaper[3];  // itemReaper[0] = VarItem*
+
+        operator int() const
+        {
+            const DWORD* varItem = reinterpret_cast<const DWORD*>(itemReaper[0]);
+            if (!varItem)
+            {
+                printf("DEBUG: varItem is NULL\n");
+                return 0;
+            }
+            int val = *reinterpret_cast<const int*>(reinterpret_cast<const char*>(varItem) + 0x20);
+            printf("DEBUG: varItem=%p, offset value=%d\n", varItem, val);
+            return val;
+        }
+
+        operator float() const { return (float)(int)(*this); }
     };
 
     struct VarFloatFake
     {
         void* vtable;
         DWORD itemReaper[3];
+
+        operator float() const
+        {
+            const DWORD* varItem = reinterpret_cast<const DWORD*>(itemReaper[0]);
+            if (!varItem)
+            {
+                return 0.0f;
+            }
+            
+            //fpoint.val is at offset 0x20 (decomp of VarItem::Float)
+            return *reinterpret_cast<const float*>(reinterpret_cast<const char*>(varItem) + 0x20);
+        }
     };
 
     static int CreateString(const char* path, const char* value, U32 flagsIn = DEFAULT, void* varPtr = NULL, void* context = NULL);
@@ -44,4 +72,7 @@ public:
     static void RegisterHandler(const char* path, VarSysCallBack func, U32 flags = 0x0000);
 
     static void SetString(void* varPtr, const char* strValue);
+
+    static void* FindVarItem(const char* path);
+    static float GetFloat(void* varItem);
 };

@@ -175,6 +175,8 @@
     <ClCompile Include="GameFuncs\coregame\Team.cpp" />
     <ClCompile Include="GameFuncs\interface\Messagebox_event.cpp" />
     <ClCompile Include="GameFuncs\coregame\TerrainData.cpp" />
+    <ClCompile Include="Game\studio_brush_terrainGen.cpp" />
+    <ClCompile Include="GameFuncs\coregame_interface\Studio_brush_area.cpp" />
     <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
@@ -245,6 +247,8 @@
     <ClInclude Include="GameFuncs\coregame\Team.h" />
     <ClInclude Include="GameFuncs\interface\Messagebox_event.h" />
     <ClInclude Include="GameFuncs\coregame\TerrainData.h" />
+    <ClInclude Include="Game\studio_brush_terrainGen.h" />
+    <ClInclude Include="GameFuncs\coregame_interface\Studio_brush_area.h" />
     <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />

@@ -1,8 +1,6 @@
 #include "IFace_messagebox.h"
 #include "messagebox_event.h"
-
-typedef void* (__cdecl* AllocMemOPNew_t)(size_t bytes);
-static AllocMemOPNew_t AllocMemOPNew = (AllocMemOPNew_t)Memory::ScanAddress(0x4CFAB0);
+#include "../system/Debug.h"
 
 typedef void* (__thiscall* MBEventCtor_t)(void* pThis, const char* ident, const char* caption);
 static MBEventCtor_t MBEventCtor = (MBEventCtor_t)Memory::ScanAddress(0x4A6770);
@@ -12,7 +10,7 @@ static MsgBox_t RealMsgBox = (MsgBox_t)Memory::ScanAddress(0x4A6210);
 
 static void* CreateMBEvent(const char* ident, const char* caption)
 {
-    void* event = AllocMemOPNew(0x64);
+    void* event = Debug::Memory::NewOperator(0x64);
     if (event)
     {
         MBEventCtor(event, ident, caption);
