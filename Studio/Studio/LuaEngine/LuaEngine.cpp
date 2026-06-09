@@ -4,19 +4,15 @@
 #include <unordered_map>
 #include <string>
 #include <cstring>
-#include "..\GameFuncs\system\Log.h"
-#include "..\GameFuncs\util\VarSys.h"
-#include "..\GameFuncs\util\Console.h"
-#include "..\GameFuncs\graphics\Terrain.h"
-#include "..\GameFuncs\interface\IFace_messagebox.h"
-#include "..\GameFuncs\interface\messagebox_event.h"
 
 #include "LuaMapObject.h"
 #include "LuaMapObjManager.h"
 #include "LuaInternals.h"
 #include "LuaSquadManager.h"
 #include "LuaFun.h"
-#include "../GameFuncs/coregame/TerrainData.h"
+#include "LuaTerrainGen.h"
+#include "LuaMath.h"
+#include "LuaTeam.h"
 
 MapObjManager manager;
 HANDLE LuaLoopHandle = NULL;
@@ -282,21 +278,6 @@ int LuaEngine::Lua_Test(lua_State* L)
     return 0;
 }
 
-int LuaEngine::Lua_Test2(lua_State* L)
-{
-    U32 width = Terrain::CellWidth();
-    lua_pushinteger(L, width);
-    return 1;
-}
-
-int LuaEngine::Lua_Test3(lua_State* L)
-{
-    U32 height = Terrain::CellHeight();
-    lua_pushinteger(L, height);
-    return 1;
-}
-
-
 void LuaEngine::RegisterFunctions()
 {
     auto setFuncs = [](lua_State* L, const std::vector<std::pair<const char*, lua_CFunction>>& funcs)
@@ -312,7 +293,10 @@ void LuaEngine::RegisterFunctions()
     // Log table
     setFuncs(L, {});
     lua_newtable(L);
-    setFuncs(L, { {"Write", Lua_LogClientWrite} });
+    setFuncs(L,
+        {
+            {"Write", Lua_LogClientWrite}
+        });
     lua_setfield(L, -2, "Client");
     lua_setglobal(L, "Log");
 
@@ -430,16 +414,48 @@ void LuaEngine::RegisterFunctions()
     lua_pushcfunction(L, Lua_TmpFn);
     lua_setglobal(L, "testterrain");
 
-    lua_pushcfunction(L, Lua_Test);
-    lua_setglobal(L, "TerrainGen");
+    /*lua_pushcfunction(L, Lua_Test);
+    lua_setglobal(L, "TerrainGen");*/
 
     lua_newtable(L);
     setFuncs(L,
         {
-            {"CellWidth", Lua_Test2},
-            {"CellHeight", Lua_Test3},
+            {"Test", Lua_TerrainTest},
+            {"CellWidth", Lua_TerrainCellWidth},
+            {"CellHeight", Lua_TerrainCellHeight},
+            {"ClusWidth", Lua_TerrainClusWidth},
+            {"ClusHeight", Lua_TerrainClusHeight},
+            {"FindFloor", Lua_TerrainFindFloor},
+            {"Generate", Lua_TerrainGen},
+            {"SetRGB", Lua_TerrainSetRGB},
+            {"Place", Lua_TerrainPlace},
+            {"DeleteAll", Lua_TerrainDeleteObjs},
+            {"AddWaterC", Lua_TerrainAddWaterC},
+            {"AddWaterF", Lua_TerrainAddWaterF},
+            {"Paint", Lua_TerrainPaint},
+            {"ActiveTypeCount", Lua_TerrainActiveTypeCount},
+            {"Blend", Lua_TerrainBlend},
+            {"Save", Lua_TerrainSave}
         });
     lua_setglobal(L, "Terrain");
+
+    //math
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"PerlinNoise", Lua_PerlinNoise},
+            {"PerlinNoiseScaled", Lua_PerlinNoiseScaled},
+            {"SetPerlinSeed", Lua_SetPerlinSeed}
+        });
+    lua_setglobal(L, "amMath");
+
+    //Team
+    lua_newtable(L);
+    setFuncs(L,
+        {
+            {"Create", Lua_CreateTeam}
+        });
+    lua_setglobal(L, "Team");
 
     RegisterMapObjManager(L, manager);
 }

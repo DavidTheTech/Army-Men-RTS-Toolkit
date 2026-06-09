@@ -5,7 +5,7 @@
 #include "../GameFuncs/game/Missions.h"
 #include "../Utils/Internals.h"
 
-class Game
+class StudioGame
 {
 public:
 	static void SetupVars();
@@ -15,7 +15,7 @@ public:
 	static bool varsSetupDone;
 };
 
-extern Game g_game;
+extern StudioGame g_game;
 
 extern VarSys::VarIntegerFake terrainGenHeightMin;
 extern VarSys::VarIntegerFake terrainGenHeightMax;

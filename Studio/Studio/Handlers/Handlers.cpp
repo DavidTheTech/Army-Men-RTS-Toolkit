@@ -3,7 +3,7 @@
 #include "../GameFuncs/coregame_interface/Client.h"
 #include "../GameFuncs/coregame/TerrainData.h"
 #include "../GameFuncs/graphics/Terrain.h"
-#include "../Game/Game.h"
+#include "../Game/StudioGame.h"
 
 void teststuff()
 {

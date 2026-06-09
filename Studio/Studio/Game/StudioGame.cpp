@@ -1,7 +1,7 @@
-#include "Game.h"
+#include "StudioGame.h"
 #include "../Handlers/Handlers.h"
 
-Game g_game;
+StudioGame g_game;
 
 VarSys::VarStringFake TommyTime;
 VarSys::VarStringFake TommyTimeU;
@@ -14,11 +14,11 @@ VarSys::VarIntegerFake studioNum;
 VarSys::VarIntegerFake terrainGenHeightMin;
 VarSys::VarIntegerFake terrainGenHeightMax;
 
-void Game::Loop()
+void StudioGame::Loop()
 {
     Internals::WaitForTrue(GameGod::IsInitialized());
     Sleep(5000);
-    while (true)
+    while (GameGod::IsInitialized())
     {
         Sleep(10);
         VarSys::SetString((DWORD*)&TommyTime, Internals::GetDate());
@@ -49,7 +49,7 @@ void Game::Loop()
 void* g_terrainMinVarItem = nullptr;
 void* g_terrainMaxVarItem = nullptr;
 
-void Game::SetupVars()
+void StudioGame::SetupVars()
 {
     //Internals::WaitForTrue(GameGod::IsInitialized());
     VarSys::RegisterHandler("studio.terraingen", Handlers::StudioTerrainGenHandler);
@@ -59,7 +59,7 @@ void Game::SetupVars()
     g_terrainMaxVarItem = (void*)VarSys::CreateFloat("studio.terraingen.max", 2.2f, VarSys::DEFAULT, &terrainGenHeightMax);
 }
 
-void Game::Setup()
+void StudioGame::Setup()
 {
     VarSys::CreateString("sys.date", "swag", VarSys::DEFAULT, &TommyTime, 0);
     VarSys::CreateString("sys.dateu", "swag", VarSys::DEFAULT, &TommyTimeU, 0);

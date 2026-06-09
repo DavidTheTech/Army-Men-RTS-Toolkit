@@ -5,4 +5,6 @@
 namespace IFace
 {
     void CmdHandler(U32 pathCrc);
+
+    DWORD* FindByName(const char* name, DWORD* base);
 }

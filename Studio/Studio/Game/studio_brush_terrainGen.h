@@ -11,6 +11,7 @@ namespace Studio
             TerrainGen(void* meem, const char* name);
             ~TerrainGen();
 
+            void GenerateList();
             void Notification(U32 crc, DWORD* e);
             Bool HasProperty(U32 property);
             void NotifyVar(void* var);

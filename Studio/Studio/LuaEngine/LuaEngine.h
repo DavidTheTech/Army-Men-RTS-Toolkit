@@ -3,11 +3,21 @@
 #include <string>
 #include <Windows.h>
 
+//LUA
 #include "GameFuncs\util\LuaVarSys.h"
 #include "GameFuncs\util\LuaConsole.h"
 #include "GameFuncs\coregame_interface\LuaClientEvents.h"
 #include "GameFuncs\coregame_orders\LuaOrdersGameMove.h"
 #include "GameFuncs\multiplayer\LuaMultiplayerData.h"
+
+//AMRTS
+#include "..\GameFuncs\system\Log.h"
+#include "..\GameFuncs\util\VarSys.h"
+#include "..\GameFuncs\util\Console.h"
+#include "..\GameFuncs\graphics\Terrain.h"
+#include "..\GameFuncs\interface\IFace_messagebox.h"
+#include "..\GameFuncs\interface\messagebox_event.h"
+#include "..\GameFuncs\coregame\TerrainData.h"
 
 class LuaEngine
 {

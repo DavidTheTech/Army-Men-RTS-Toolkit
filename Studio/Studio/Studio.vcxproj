@@ -148,10 +148,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameFuncs\coregame\Game.cpp" />
+    <ClCompile Include="GameFuncs\coregame\Coregame.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Common_mapwindow.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client_events.cpp" />
     <ClCompile Include="GameFuncs\interface\IFace.cpp" />
-    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\StudioGame.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Client.cpp" />
     <ClCompile Include="GameFuncs\coregame_orders\Orders.cpp" />
     <ClCompile Include="Handlers\Handlers.cpp" />
@@ -167,6 +169,10 @@
     <ClCompile Include="LuaEngine\GameFuncs\interface\LuaIFace.cpp" />
     <ClCompile Include="LuaEngine\LuaSquadManager.cpp" />
     <ClCompile Include="LuaEngine\LuaFun.cpp" />
+    <ClCompile Include="LuaEngine\LuaTerrainGen.cpp" />
+    <ClCompile Include="LuaEngine\LuaMath.cpp" />
+    <ClCompile Include="LuaEngine\LuaTeam.cpp" />
+    <ClCompile Include="GameFuncs\coregame_objects\MapObjCtrl.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjManager.cpp" />
     <ClCompile Include="GameFuncs\game\Missions.cpp" />
@@ -177,6 +183,7 @@
     <ClCompile Include="GameFuncs\coregame\TerrainData.cpp" />
     <ClCompile Include="Game\studio_brush_terrainGen.cpp" />
     <ClCompile Include="GameFuncs\coregame_interface\Studio_brush_area.cpp" />
+    <ClCompile Include="Utils\PerlinNoise.cpp" />
     <ClCompile Include="Testing\Testing.cpp" />
     <ClCompile Include="Utils\GameConsole.cpp" />
     <ClCompile Include="GameFuncs\graphics\Vid_Config.cpp" />
@@ -219,11 +226,13 @@
     <ClCompile Include="Utils\Internals.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameFuncs\coregame\Game.h" />
+    <ClInclude Include="GameFuncs\coregame\Coregame.h" />
     <ClInclude Include="GameFuncs\coregame\releation.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Common_mapwindow.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client_events.h" />
     <ClInclude Include="GameFuncs\interface\IFace.h" />
-    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\StudioGame.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Client.h" />
     <ClInclude Include="GameFuncs\coregame_orders\Orders.h" />
     <ClInclude Include="Handlers\Handlers.h" />
@@ -239,6 +248,10 @@
     <ClInclude Include="LuaEngine\GameFuncs\interface\LuaIFace.h" />
     <ClInclude Include="LuaEngine\LuaSquadManager.h" />
     <ClInclude Include="LuaEngine\LuaFun.h" />
+    <ClInclude Include="LuaEngine\LuaTerrainGen.h" />
+    <ClInclude Include="LuaEngine\LuaMath.h" />
+    <ClInclude Include="LuaEngine\LuaTeam.h" />
+    <ClInclude Include="GameFuncs\coregame_objects\MapObjCtrl.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjManager.h" />
     <ClInclude Include="GameFuncs\game\Missions.h" />
@@ -249,6 +262,7 @@
     <ClInclude Include="GameFuncs\coregame\TerrainData.h" />
     <ClInclude Include="Game\studio_brush_terrainGen.h" />
     <ClInclude Include="GameFuncs\coregame_interface\Studio_brush_area.h" />
+    <ClInclude Include="Utils\PerlinNoise.h" />
     <ClInclude Include="Testing\Testing.h" />
     <ClInclude Include="Utils\Internals.h" />
     <ClInclude Include="Utils\GameConsole.h" />

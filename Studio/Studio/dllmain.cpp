@@ -70,6 +70,11 @@ void LockCursor(int cursorLockTimer)
     }
 }
 
+void SetupDirs()
+{
+    Hooks::SetupDirs();
+}
+
 void SetupEverything()
 {
     g_settings.LoadJson();

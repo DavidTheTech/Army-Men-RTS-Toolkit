@@ -1,3 +1,5 @@
+//ONLY NEEDS Setup as a external call
+//everything else is on the fly calls
 #pragma once
 
 #include <string>
@@ -12,4 +14,5 @@ class Hooks
 {
 public:
 	static bool Setup();
+	static void SetupDirs();
 };

@@ -1,6 +1,11 @@
 #include "studio_brush_terrainGen.h"
 #include <stdio.h>
 #include "../GameFuncs/coregame_interface/Studio_brush_area.h"
+#include <cstdint>
+#include "../GameFuncs/graphics/Terrain.h"
+#include "StudioGame.h"
+#include "../GameFuncs/coregame/TerrainData.h"
+#include "../GameFuncs/interface/IFace.h"
 
 namespace Studio
 {
@@ -33,13 +38,20 @@ namespace Studio
                 vtableInit = true;
             }
 
+            //BaseConstructor(meem, name);
             Studio::Brush::AreaBase::Constructor(meem, name);
 
             *(void**)meem = customVtable;
+
         }
 
         TerrainGen::~TerrainGen()
         {
+        }
+
+        void TerrainGen::GenerateList()
+        {
+
         }
 
         void TerrainGen::Notification(U32 crc, DWORD* e)
@@ -73,7 +85,24 @@ namespace Studio
 
                 case 0x6153E7A4: // "Brush::TerrainGen::Message::Apply"
                 {
+                    typedef int(__thiscall* VarItemInteger_t)(void*);
+                    VarItemInteger_t VarItemInteger = (VarItemInteger_t)(Memory::ScanAddress(0x4E2FC0));
+                    typedef float(__thiscall* VarItemFloat_t)(void* varItem);
+                    VarItemFloat_t VarItemFloat = (VarItemFloat_t)(Memory::ScanAddress(0x4E30B0));
 
+                    float minVal = VarItemFloat(g_terrainMinVarItem);
+                    float maxVal = VarItemFloat(g_terrainMaxVarItem);
+                    float minHeight = (float)minVal;
+                    float maxHeight = (float)maxVal;
+
+                    for (U32 x = 0; x < Terrain::CellWidth() + 1; x++)
+                    {
+                        for (U32 y = 0; y < Terrain::CellHeight() + 1; y++)
+                        {
+                            float randomHeight = minHeight + (float)rand() / RAND_MAX * (maxHeight - minHeight);
+                            TerrainData::SessionModifyHeight(x, y, randomHeight);
+                        }
+                    }
                     return;
                 }
 

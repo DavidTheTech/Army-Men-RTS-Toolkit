@@ -31,7 +31,7 @@
 #include "GameFuncs\game\Missions.h"
 #include "MapObjManager.h"
 #include "Testing\Testing.h"
-#include "Game\Game.h"
+#include "Game\StudioGame.h"
 
 class StudioDLL
 {
