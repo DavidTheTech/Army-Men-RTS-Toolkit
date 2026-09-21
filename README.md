@@ -1,3 +1,6 @@
+## Credits
+LuKeStorm for allowing the use of his patch
+
 ## Requirements
 
 This project depends on the following libraries:
