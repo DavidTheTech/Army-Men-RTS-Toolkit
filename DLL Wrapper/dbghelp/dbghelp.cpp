@@ -7,6 +7,7 @@ HINSTANCE mHinst = 0, mHinstDLL = 0;
 UINT_PTR mProcs[250] = {0};
 
 HINSTANCE g_hStudioDll = nullptr;
+HINSTANCE g_hPatchesDll = nullptr;
 
 LPCSTR mImportNames[] = {"DbgHelpCreateUserDump", "DbgHelpCreateUserDumpW", "EnumDirTree", "EnumDirTreeW", "EnumerateLoadedModules", "EnumerateLoadedModules64", "EnumerateLoadedModulesEx", "EnumerateLoadedModulesExW", "EnumerateLoadedModulesW64", "ExtensionApiVersion", "FindDebugInfoFile", "FindDebugInfoFileEx", "FindDebugInfoFileExW", "FindExecutableImage", "FindExecutableImageEx", "FindExecutableImageExW", "FindFileInPath", "FindFileInSearchPath", "GetSymLoadError", "GetTimestampForLoadedLibrary", "ImageDirectoryEntryToData", "ImageDirectoryEntryToDataEx", "ImageNtHeader", "ImageRvaToSection", "ImageRvaToVa", "ImagehlpApiVersion", "ImagehlpApiVersionEx", "MakeSureDirectoryPathExists", "MapDebugInformation", "MiniDumpReadDumpStream", "MiniDumpWriteDump", "RangeMapAddPeImageSections", "RangeMapCreate", "RangeMapFree", "RangeMapRead", "RangeMapRemove", "RangeMapWrite", "RemoveInvalidModuleList", "ReportSymbolLoadSummary", "SearchTreeForFile", "SearchTreeForFileW", "SetCheckUserInterruptShared", "SetSymLoadError", "StackWalk", "StackWalk64", "StackWalkEx", "SymAddSourceStream", "SymAddSourceStreamA", "SymAddSourceStreamW", "SymAddSymbol", "SymAddSymbolW", "SymAddrIncludeInlineTrace", "SymCleanup", "SymCompareInlineTrace", "SymDeleteSymbol", "SymDeleteSymbolW", "SymEnumLines", "SymEnumLinesW", "SymEnumProcesses", "SymEnumSourceFileTokens", "SymEnumSourceFiles", "SymEnumSourceFilesW", "SymEnumSourceLines", "SymEnumSourceLinesW", "SymEnumSym", "SymEnumSymbols", "SymEnumSymbolsEx", "SymEnumSymbolsExW", "SymEnumSymbolsForAddr", "SymEnumSymbolsForAddrW", "SymEnumSymbolsW", "SymEnumTypes", "SymEnumTypesByName", "SymEnumTypesByNameW", "SymEnumTypesW", "SymEnumerateModules", "SymEnumerateModules64", "SymEnumerateModulesW64", "SymEnumerateSymbols", "SymEnumerateSymbols64", "SymEnumerateSymbolsW", "SymEnumerateSymbolsW64", "SymFindDebugInfoFile", "SymFindDebugInfoFileW", "SymFindExecutableImage", "SymFindExecutableImageW", "SymFindFileInPath", "SymFindFileInPathW", "SymFreeDiaString", "SymFromAddr", "SymFromAddrW", "SymFromIndex", "SymFromIndexW", "SymFromInlineContext", "SymFromInlineContextW", "SymFromName", "SymFromNameW", "SymFromToken", "SymFromTokenW", "SymFunctionTableAccess", "SymFunctionTableAccess64", "SymFunctionTableAccess64AccessRoutines", "SymGetDiaSession", "SymGetFileLineOffsets64", "SymGetHomeDirectory", "SymGetHomeDirectoryW", "SymGetLineFromAddr", "SymGetLineFromAddr64", "SymGetLineFromAddrW64", "SymGetLineFromInlineContext", "SymGetLineFromInlineContextW", "SymGetLineFromName", "SymGetLineFromName64", "SymGetLineFromNameW64", "SymGetLineNext", "SymGetLineNext64", "SymGetLineNextW64", "SymGetLinePrev", "SymGetLinePrev64", "SymGetLinePrevW64", "SymGetModuleBase", "SymGetModuleBase64", "SymGetModuleInfo", "SymGetModuleInfo64", "SymGetModuleInfoW", "SymGetModuleInfoW64", "SymGetOmapBlockBase", "SymGetOmaps", "SymGetOptions", "SymGetScope", "SymGetScopeW", "SymGetSearchPath", "SymGetSearchPathW", "SymGetSourceFile", "SymGetSourceFileFromToken", "SymGetSourceFileFromTokenW", "SymGetSourceFileToken", "SymGetSourceFileTokenW", "SymGetSourceFileW", "SymGetSourceVarFromToken", "SymGetSourceVarFromTokenW", "SymGetSymFromAddr", "SymGetSymFromAddr64", "SymGetSymFromName", "SymGetSymFromName64", "SymGetSymNext", "SymGetSymNext64", "SymGetSymPrev", "SymGetSymPrev64", "SymGetSymbolFile", "SymGetSymbolFileW", "SymGetTypeFromName", "SymGetTypeFromNameW", "SymGetTypeInfo", "SymGetTypeInfoEx", "SymGetUnwindInfo", "SymInitialize", "SymInitializeW", "SymLoadModule", "SymLoadModule64", "SymLoadModuleEx", "SymLoadModuleExW", "SymMatchFileName", "SymMatchFileNameW", "SymMatchString", "SymMatchStringA", "SymMatchStringW", "SymNext", "SymNextW", "SymPrev", "SymPrevW", "SymQueryInlineTrace", "SymRefreshModuleList", "SymRegisterCallback", "SymRegisterCallback64", "SymRegisterCallbackW64", "SymRegisterFunctionEntryCallback", "SymRegisterFunctionEntryCallback64", "SymSearch", "SymSearchW", "SymSetContext", "SymSetHomeDirectory", "SymSetHomeDirectoryW", "SymSetOptions", "SymSetParentWindow", "SymSetScopeFromAddr", "SymSetScopeFromIndex", "SymSetScopeFromInlineContext", "SymSetSearchPath", "SymSetSearchPathW", "SymSrvDeltaName", "SymSrvDeltaNameW", "SymSrvGetFileIndexInfo", "SymSrvGetFileIndexInfoW", "SymSrvGetFileIndexString", "SymSrvGetFileIndexStringW", "SymSrvGetFileIndexes", "SymSrvGetFileIndexesW", "SymSrvGetSupplement", "SymSrvGetSupplementW", "SymSrvIsStore", "SymSrvIsStoreW", "SymSrvStoreFile", "SymSrvStoreFileW", "SymSrvStoreSupplement", "SymSrvStoreSupplementW", "SymUnDName", "SymUnDName64", "SymUnloadModule", "SymUnloadModule64", "UnDecorateSymbolName", "UnDecorateSymbolNameW", "UnmapDebugInformation", "WinDbgExtensionDllInit", "_EFN_DumpImage", "block", "chksym", "dbghelp", "dh", "fptr", "homedir", "inlinedbg", "itoldyouso", "lmi", "lminfo", "omap", "optdbgdump", "optdbgdumpaddr", "srcfiles", "stack_force_ebp", "stackdbg", "sym", "symsrv", "vc7fpo", (LPCSTR)1001, (LPCSTR)1002, (LPCSTR)1003, (LPCSTR)1004, (LPCSTR)1005, (LPCSTR)1006, (LPCSTR)1007, (LPCSTR)1008, (LPCSTR)1009, (LPCSTR)1010, (LPCSTR)1011, (LPCSTR)1012, (LPCSTR)1013, (LPCSTR)1014, (LPCSTR)1015, (LPCSTR)1016};
 
@@ -44,6 +45,41 @@ int loadStudio()
 	return TRUE;
 }
 
+int loadPatches()
+{
+	char exePath[MAX_PATH] = { 0 };
+	if (GetModuleFileNameA(nullptr, exePath, MAX_PATH) == 0)
+	{
+		return FALSE;
+	}
+
+	PathRemoveFileSpecA(exePath);
+	char dllPath[MAX_PATH];
+	int len = snprintf(dllPath, sizeof(dllPath), "%s\\Patches.dll", exePath);
+	if (len < 0 || len >= (int)sizeof(dllPath))
+	{
+		return FALSE;
+	}
+
+	g_hPatchesDll = LoadLibraryA(dllPath);
+	if (!g_hPatchesDll)
+	{
+		DWORD err = GetLastError();
+		char msg[512] = {};
+
+		FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), msg, sizeof(msg), nullptr);
+
+		char out[1024] = {};
+		sprintf_s(out, sizeof(out), "LoadLibrary failed\n\nError code: %lu\nMessage: %s", err, msg);
+
+		MessageBoxA(nullptr, out, "DLL Load Error", MB_ICONERROR);
+
+		return FALSE;
+	}
+	return TRUE;
+}
+
+
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 {
 	char Filename[MAX_PATH] = {};
@@ -51,9 +87,20 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 	mHinst = hinstDLL;
 	if ( fdwReason == DLL_PROCESS_ATTACH )
 	{
-		if (MessageBoxA(nullptr, "Would you like to load Studio.dll?", "Studio Launcher", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		loadPatches();
+
+		char exePath[MAX_PATH] = { 0 };
+		if (GetModuleFileNameA(nullptr, exePath, MAX_PATH) != 0)
 		{
-			loadStudio();
+			PathRemoveFileSpecA(exePath);
+			strcat_s(exePath, sizeof(exePath), "\\studio.dll");
+			if (GetFileAttributesA(exePath) != INVALID_FILE_ATTRIBUTES)
+			{
+				if (MessageBoxA(nullptr, "Would you like to load Studio.dll?", "Studio Launcher", MB_YESNO | MB_ICONQUESTION) == IDYES)
+				{
+					loadStudio();
+				}
+			}
 		}
 		
 		if (GetModuleFileNameA(hinstDLL, Filename, MAX_PATH) != 0)
